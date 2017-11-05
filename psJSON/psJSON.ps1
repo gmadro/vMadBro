@@ -19,4 +19,5 @@
   <Example goes here. Repeat this attribute for more than one example>
 #>
 
-Get-Content .\psJSON.json | ConvertFrom-Json
+$a = Get-Content .\psJSON.json | ConvertFrom-Json
+$a.base

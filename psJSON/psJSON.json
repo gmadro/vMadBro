@@ -1,0 +1,14 @@
+{"Base":[
+    {
+        "Name":"Val1",
+        "Type":"type1"
+    },
+    {
+        "Name":"Val2",
+        "Type":"type1"
+    },
+    {
+        "Name":"Val3",
+        "Type":"type2"
+    }
+]}
