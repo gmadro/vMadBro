@@ -1,0 +1,18 @@
+{"Pools":[
+    {
+        "Name":"Gold",
+        "Shares":"4000"
+    },
+    {
+        "Name":"Silver",
+        "Shares":"2000"
+    },
+    {
+        "Name":"Bronze",
+        "Shares":"1000"
+    },
+    {
+        "Name":"Default",
+        "Shares":"1000"
+    }
+]}
