@@ -13,6 +13,7 @@ $logFile = (".\Set-Pool{0}.log" -f $scriptStart.ToString("MM-dd-yyyy_HHmmss"))
 
 Write-Log "HEADER" $logFile "Start of resource pool validation"
 
+# Load configuration JSON containing desired share values for all resource pools
 $poolFile = Get-Content .\Set-Pool.json | ConvertFrom-Json
 
 # Loop through each Resource Pool on the vCenter Server
@@ -64,13 +65,13 @@ ForEach ($pool in $pools){
     
                 $shares = $poolFile.Pools | Where {$_.Name -eq "Default"} | Select-Object -ExpandProperty Shares
                 Write-Log "WARN" $logFile "No valid configuration exists for Pool. Setting shares to default value: $shares"
-                #calculate pool shares
+                # Calculate pool shares
                 $totalShares = [int]$shares * [int]$vmCount
             }    
-        }# end vmCount
+        }# End vmCount
         else{
             
-            #Check for child pools
+            # Check for child pools
             if($pool.ExtensionData.resourcePool){
                 $parentPool = 0
     
@@ -82,7 +83,7 @@ ForEach ($pool in $pools){
                     $parentPool += [int]$np.VM.Count
                 }
                 $totalVM = $parentPool + [int]$pool.ExtensionData.vm.count
-                #calculate pool shares
+                # Calculate pool shares
                 $totalShares = $totalVM * $shares
             }
             else{
@@ -111,8 +112,8 @@ ForEach ($pool in $pools){
             Write-Log "ERROR" $logFile "Unable to set pool shares"
             Write-Log "ERROR" $logFile $_
         }
-    }# end pool
-}# end pools
+    }# End pool
+}# End pools
 
 $scriptEnd = Get-Date
 $scriptDur = ($scriptEnd - $scriptStart).TotalSeconds
