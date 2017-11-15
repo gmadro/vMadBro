@@ -1,7 +1,7 @@
 # Author: Greg Madro
 # Site: www.virtualinsanity.com
 # Description: Script to validate and set resource pools
-# Reference: 
+# Reference: http://virtualinsanity.com/index.php/2017/11/15/what-do-you-mean-share-resources/
 
 $scriptDir = ((Split-Path ((Get-Variable MyInvocation -Scope 0).Value).MyCommand.Path) + "\")
 
