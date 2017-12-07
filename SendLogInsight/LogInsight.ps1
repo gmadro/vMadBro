@@ -60,7 +60,7 @@ function Send-LogInsight{
       }
 }
 
-$LIserver = "pcstlog2.fsillab.ford.com"
+$LIserver = "loginsight.vmadbro.com"
 $eventType = "INFO"
 $eventMsg = "Event message"
 
