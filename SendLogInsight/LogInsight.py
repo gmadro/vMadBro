@@ -42,7 +42,7 @@ def send_to_log_insight(li_server, event_type, event_msg):
         print('REST Call to Log Insight server successful')
         print(response.text)
 
-LI_SERVER = 'pcstlog2.fsillab.ford.com'
+LI_SERVER = 'loginsight.vmadbro.com'
 EVENT_TYPE = 'INFO'
 EVENT_MSG = 'This is a test'
 
