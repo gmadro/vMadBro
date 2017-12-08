@@ -14,6 +14,12 @@ function Send-LogInsight{
       
       .PARAMETER LIserver
       Log Insight server to send event entry to
+
+      .PARAMETER scriptName
+      Current script name
+
+      .PARAMETER eventID
+      Event identifier
       
       .EXAMPLE
       Send-LogInsight -eventType "INFO" -eventMsg "This is an event" -LIserver loginsight.vmadbro.com
@@ -24,8 +30,10 @@ function Send-LogInsight{
 
       param(
             $eventType,
+            $eventID,
             $eventMsg,
-            $LIserver
+            $LIserver,
+            $scriptName         
       )
 
       $agentID = $env:COMPUTERNAME
@@ -39,8 +47,16 @@ function Send-LogInsight{
                               content = $eventType
                         },
                         [ordered]@{
+                              name = 'eventID'
+                              content = $eventID
+                        },
+                        [ordered]@{
                               name = 'agentID'
                               content = $agentID
+                        },
+                        [ordered]@{
+                              name = 'scriptName'
+                              content = $scriptName
                         }
                   )
             }))
@@ -61,7 +77,10 @@ function Send-LogInsight{
 }
 
 $LIserver = "loginsight.vmadbro.com"
-$eventType = "INFO"
-$eventMsg = "PowerCLI ingestion test"
+$eventType = "ERROR"
+$eventMsg = "Error this does not work"
+$eventID = "101"
+$scriptName = $MyInvocation.InvocationName.Split('\')[1]
+write-host $scriptName
 
-Send-LogInsight -eventType $eventType -eventMsg $eventMsg -LIserver $LIserver
+Send-LogInsight -eventType $eventType -eventID $eventID -eventMsg $eventMsg -LIserver $LIserver -scriptName $scriptName
