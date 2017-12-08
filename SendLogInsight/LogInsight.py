@@ -1,17 +1,20 @@
-import requests
+import os
 import socket
+import requests
 
-def send_to_log_insight(li_server, event_type, event_msg):
+def send_to_log_insight(event_type, id_event, event_msg, li_server, script_name):
     """
-    Send an event to specified Log Insight server
+    Log an event to specified Log Insight server
 
     Arguments:
-    li_server -- Log Insight server to send event entry to
-    event_type -- Event type: INFO, WARNING, ERROR
-    event_msg -- Event body
+    event_type: INFO, WARNING, ERROR
+    id_event: Event identifier
+    event_msg: Event body
+    li_server: Log Insight server to send event entry to
+    script_name: Current script name
 
     Example:
-    send_to_log_insight('loginsight.vmadbro.com', 'INFO', 'This is an event')
+    >>> send_to_log_insight('loginsight.vmadbro.com', 'INFO', 'This is an event')
 
     Notes:
     N/A
@@ -23,8 +26,10 @@ def send_to_log_insight(li_server, event_type, event_msg):
 
     rest_body = {"events": [{
         "fields": [
-            {"name":"eventType", "content":event_type},
-            {"name":"agentID", "content":id_agent}
+            {"name":"EventType", "content":event_type},
+            {"name":"EventID", "content":id_event},
+            {"name":"AgentID", "content":id_agent},
+            {"name":"ScriptName", "content":script_name}
             ],
         "text": event_msg
         }]
@@ -42,7 +47,9 @@ def send_to_log_insight(li_server, event_type, event_msg):
         print(response.text)
 
 LI_SERVER = 'loginsight.vmadbro.com'
-EVENT_TYPE = 'INFO'
-EVENT_MSG = 'Python ingestion test'
+EVENT_TYPE = 'ERROR'
+EVENT_MSG = 'Error this file has exploded bad'
+SCRIPT_NAME = os.path.basename(__file__)
+ID_EVENT = '103'
 
-send_to_log_insight(LI_SERVER, EVENT_TYPE, EVENT_MSG)
+send_to_log_insight(EVENT_TYPE, ID_EVENT, EVENT_MSG, LI_SERVER, SCRIPT_NAME)
