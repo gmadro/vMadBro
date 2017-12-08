@@ -24,10 +24,9 @@ def send_to_log_insight(li_server, event_type, event_msg):
     rest_body = {"events": [{
         "fields": [
             {"name":"eventType", "content":event_type},
-            {"name":"agentID", "content":id_agent},
-            {"name":"eventMsg", "content":event_msg}
+            {"name":"agentID", "content":id_agent}
             ],
-        "text": "Python Test"
+        "text": event_msg
         }]
                 }
 
@@ -44,6 +43,6 @@ def send_to_log_insight(li_server, event_type, event_msg):
 
 LI_SERVER = 'loginsight.vmadbro.com'
 EVENT_TYPE = 'INFO'
-EVENT_MSG = 'This is a test'
+EVENT_MSG = 'Python ingestion test'
 
 send_to_log_insight(LI_SERVER, EVENT_TYPE, EVENT_MSG)
