@@ -62,6 +62,6 @@ function Send-LogInsight{
 
 $LIserver = "loginsight.vmadbro.com"
 $eventType = "INFO"
-$eventMsg = "Event message"
+$eventMsg = "PowerCLI ingestion test"
 
 Send-LogInsight -eventType $eventType -eventMsg $eventMsg -LIserver $LIserver
