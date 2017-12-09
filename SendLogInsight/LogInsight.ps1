@@ -8,6 +8,9 @@ function Send-LogInsight{
       
       .PARAMETER eventType
       Event type: INFO, WARNING, ERROR
+
+      .PARAMETER eventID
+      Event identifier
       
       .PARAMETER eventMsg
       Event body
@@ -16,10 +19,7 @@ function Send-LogInsight{
       Log Insight server to send event entry to
 
       .PARAMETER scriptName
-      Current script name
-
-      .PARAMETER eventID
-      Event identifier
+      Current script name 
       
       .EXAMPLE
       Send-LogInsight -eventType "INFO" -eventMsg "This is an event" -LIserver loginsight.vmadbro.com
