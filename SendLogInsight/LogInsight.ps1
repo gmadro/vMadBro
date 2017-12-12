@@ -38,6 +38,7 @@ function Send-LogInsight{
 
       $agentID = $env:COMPUTERNAME
 
+      #Log Insight event composition in JSON-like format that is then formatted to a JSON string
       $restBody = @{
             events = ([Object[]]([ordered]@{
                   text = $eventMsg
@@ -65,6 +66,7 @@ function Send-LogInsight{
       $restUrl = ("http://" + $LIserver + ":9000/api/v1/events/ingest/" + $agentID)
       Write-Output ("Posting results to Log Insight server: " + $LIserver)
 
+      #Attempt to make REST POST to Log Insight. Report on success or failure
       try {
             $response = Invoke-RestMethod $restUrl -Method Post -Body $restBody -ContentType 'application/json' -ErrorAction stop
             Write-Output 'REST Call to Log Insight server successful'
