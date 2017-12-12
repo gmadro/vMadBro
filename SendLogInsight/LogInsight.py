@@ -19,11 +19,12 @@ def send_to_log_insight(event_type, id_event, event_msg, li_server, script_name)
     Notes:
     N/A
     """
-
+    
     id_agent = socket.gethostname()
 
     rest_url = 'http://' + li_server +':9000/api/v1/events/ingest/' + id_agent
 
+    #Log Insight event composition in JSON format
     rest_body = {"events": [{
         "fields": [
             {"name":"EventType", "content":event_type},
@@ -34,11 +35,13 @@ def send_to_log_insight(event_type, id_event, event_msg, li_server, script_name)
         "text": event_msg
         }]
                 }
-
+    
+    #Make REST call to Log Insight
     response = requests.post(rest_url, json=rest_body)
 
     print('Posting results to Log Insight server: ' + li_server)
 
+    #Report pass or fail
     if response.status_code != 200:
         print('REST Call failed to Log Insight server')
         print(response.text)
