@@ -3,7 +3,7 @@ provider "docker" {
 }
 
 resource "docker_container" "vmadbro" {
-  image = "${docker_image.ubuntu.latest)"
+  image = "${docker_image.ubuntu.latest}"
   name = "vmadbro"
 }
 
