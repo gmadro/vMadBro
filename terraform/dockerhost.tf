@@ -55,19 +55,5 @@ resource "vsphere_virtual_machine" "vm" {
   
   clone {
     template_uuid = "${data.vsphere_virtual_machine.template.id}"
-
-    customize {
-      linux_options {
-        host_name = "terraform-test"
-        domain    = "myviolentmachine.com"
-      }
-
-      network_interface {
-        ipv4_address = "192.168.1.111"
-        ipv4_netmask = 24
-      }
-
-      ipv4_gateway = "192.168.1.1"
-    }
   }
 }
