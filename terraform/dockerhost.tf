@@ -16,8 +16,8 @@ data "vsphere_datastore" "datastore" {
   datacenter_id = "${data.vsphere_datacenter.dc.id}"
 }
 
-data "vsphere_resource_pool" "pool" {
-  name          = "MVMASTER/Resources"
+data "vsphere_compute_cluster" "cluster" {
+  name          = "MVMASTER"
   datacenter_id = "${data.vsphere_datacenter.dc.id}"
 }
 
@@ -39,6 +39,8 @@ resource "vsphere_virtual_machine" "vm" {
   num_cpus = 2
   memory   = 4096
   guest_id = "${data.vsphere_virtual_machine.template.guest_id}"
+  
+  scsi_type = "${data.vsphere_virtual_machine.template.scsi_type}"
 
   network_interface {
     network_id = "${data.vsphere_network.network.id}"
