@@ -14,7 +14,7 @@ stack = input()
 stack_file = stack + '.yaml'
 cwd = os.getcwd()
 lambda_base = 'lambda_test.py'
-lambda_file = stack + '.py'
+lambda_file = 'index.py'
 lambda_zip = stack + '.zip'
 
 #Copy Base Lambda script to new file and zip
