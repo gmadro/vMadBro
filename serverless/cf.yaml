@@ -34,7 +34,7 @@ Resources:
     Properties:
       Code:
         S3Bucket: "vmadbro-lambda-code"
-        S3Key: !Sub ${AWS::StackName}.zip
+        S3Key: !Sub '${AWS::StackName}.zip'
       FunctionName: !Ref AWS::StackName
       Role: 'arn:aws:iam::501511055678:role/basic-lambda-role'
       Handler: index.main
