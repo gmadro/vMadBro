@@ -1,15 +1,29 @@
 import boto3
 import requests
 import time
+import zipfile
+import os
+import shutil
+
 cf = boto3.client('cloudformation')
 s3 = boto3.client('s3')
 
+#Define the stack
 print('Enter name of stack')
 stack = input()
 stack_file = stack + '.yaml'
+cwd = os.getcwd()
+lambda_base = 'lambda_test.py'
 lambda_file = stack + '.py'
+lambda_zip = stack + '.zip'
+
+#Copy Base Lambda script to new file and zip
+shutil.copy(lambda_base, lambda_file)
+with ZipFile(lambda_zip, 'w') as azip:
+        azip.write(lambda_file)
+
 s3.upload_file('/home/vMadBro/serverless/cf.yaml','vmadbro-cf',stack_file)
-s3.upload_file('/home/vMadBro/serverless/lambda_test.py','vmadbro-lambda-code', lambda_file)
+s3.upload_file('/home/vMadBro/serverless/' + lambda_zip,'vmadbro-lambda-code', lambda_zip)
 cf_tmpl_url = 'https://vmadbro-cf.s3.amazonaws.com/' + stack_file
 cf.create_stack(StackName=stack, TemplateURL=cf_tmpl_url)
 
@@ -17,6 +31,7 @@ app_url = "https://api.vmadbro.com/" + stack + "/"
 
 print("API created at: " + app_url)
 
+#Set function test values
 print('Enter first key value')
 v1 = input()
 print('Enter second key value')
@@ -27,6 +42,7 @@ json_in = {
         "k2":v2
 }
 
+#Test the stack
 test_num = 0
 
 while True:
