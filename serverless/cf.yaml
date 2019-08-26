@@ -44,7 +44,7 @@ Resources:
         id: c1ff5176-6cb3-46bd-bce2-2fdb7a033eb1
   ApiGateway:
     Type: 'AWS::ApiGateway::RestApi'
-    Properties: !Sub 
+    Properties:
       Name: !Ref AWS::StackName
     Metadata:
       'AWS::CloudFormation::Designer':
