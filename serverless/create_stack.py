@@ -19,7 +19,7 @@ lambda_zip = stack + '.zip'
 
 #Copy Base Lambda script to new file and zip
 shutil.copy(lambda_base, lambda_file)
-with ZipFile(lambda_zip, 'w') as azip:
+with zipfle.ZipFile(lambda_zip, 'w') as azip:
         azip.write(lambda_file)
 
 s3.upload_file('/home/vMadBro/serverless/cf.yaml','vmadbro-cf',stack_file)
