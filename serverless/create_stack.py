@@ -50,8 +50,12 @@ while True:
     test_num = test_num + 1
     if (r.status_code == 200):
         print("API result: " + r.text)
+        
+        #Tear down stack
         print("Deleting stack: " + stack)
         cf.delete_stack(StackName=stack)
+        os.remove(lambda_file)
+        os.remove(lambda_zip)
         break
     print(r.status_code)
     print("Attempt: " + str(test_num) + " Retrying attempt in 1s")
