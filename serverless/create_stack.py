@@ -21,9 +21,11 @@ with open(cwd + '/app_config.yaml') as f:
 settings = app_settings['settings']
 
 #Values imported from app_config.yaml
-lambda_base = settings['lambda_base']
-cf_s3_bucket = settings['cf_s3_bucket']
+api_base = settings['api_base']
 cf_base = settings['cf_base']
+cf_s3_bucket = settings['cf_s3_bucket']
+lambda_base = settings['lambda_base']
+lambda_s3_bucket = settings['lambda_s3_bucket']
 lambda_file = settings['lambda_file']
 
 stack_file = stack + '.yaml'
@@ -35,11 +37,11 @@ shutil.copy(lambda_base, lambda_file)
 with zipfile.ZipFile(lambda_zip, 'w') as azip:
         azip.write(lambda_file)
 
-s3.upload_file(cwd + '/' + cf_base,'vmadbro-cf',stack_file)
-s3.upload_file(cwd + '/' + lambda_zip,'vmadbro-lambda-code', lambda_zip)
+s3.upload_file(cwd + '/' + cf_base,cf_s3_bucket,stack_file)
+s3.upload_file(cwd + '/' + lambda_zip,lambda_s3_bucket, lambda_zip)
 cf.create_stack(StackName=stack, TemplateURL=cf_tmpl_url)
 
-app_url = "https://api.vmadbro.com/" + stack + "/"
+app_url = api_base + stack + "/"
 
 print("API created at: " + app_url)
 
