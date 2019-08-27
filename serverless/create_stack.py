@@ -16,7 +16,7 @@ stack = input()
 cwd = os.getcwd()
 
 #Open app config yaml
-with open(cwd + 'app_config.yaml') as f:
+with open(cwd + '/app_config.yaml') as f:
     app_settings = yaml.safe_load(f)
 settings = app_settings['settings']
 
