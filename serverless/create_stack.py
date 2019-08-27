@@ -35,8 +35,8 @@ shutil.copy(lambda_base, lambda_file)
 with zipfile.ZipFile(lambda_zip, 'w') as azip:
         azip.write(lambda_file)
 
-s3.upload_file(cwd + cf_base,'vmadbro-cf',stack_file)
-s3.upload_file(cwd + lambda_zip,'vmadbro-lambda-code', lambda_zip)
+s3.upload_file(cwd + '/' + cf_base,'vmadbro-cf',stack_file)
+s3.upload_file(cwd + '/' + lambda_zip,'vmadbro-lambda-code', lambda_zip)
 cf.create_stack(StackName=stack, TemplateURL=cf_tmpl_url)
 
 app_url = "https://api.vmadbro.com/" + stack + "/"
