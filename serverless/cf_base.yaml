@@ -1,0 +1,91 @@
+AWSTemplateFormatVersion: 2010-09-09
+Metadata:
+  'AWS::CloudFormation::Designer':
+    1bcb5ab2-140d-44c0-a722-74890604f185:
+      size:
+        width: 150
+        height: 150
+      position:
+        x: 60
+        'y': 90
+      z: 1
+      embeds: []
+    4fe7c634-3323-4a7b-8ee3-797a4cb8249b:
+      size:
+        width: 60
+        height: 60
+      position:
+        x: 270
+        'y': 90
+      z: 1
+      embeds: []
+    c1ff5176-6cb3-46bd-bce2-2fdb7a033eb1:
+      size:
+        width: 60
+        height: 60
+      position:
+        x: 270
+        'y': 210
+      z: 1
+      embeds: []
+Resources:
+  LambdaFunction:
+    Type: 'AWS::Lambda::Function'
+    Properties:
+      Code:
+        S3Bucket: "vmadbro-lambda-code"
+        S3Key: !Sub '${AWS::StackName}.zip'
+      FunctionName: !Ref AWS::StackName
+      Role: 'arn:aws:iam::501511055678:role/basic-lambda-role'
+      Handler: index.main
+      Runtime: python3.7
+    Metadata:
+      'AWS::CloudFormation::Designer':
+        id: c1ff5176-6cb3-46bd-bce2-2fdb7a033eb1
+  ApiGateway:
+    Type: 'AWS::ApiGateway::RestApi'
+    Properties:
+      Name: !Ref AWS::StackName
+    Metadata:
+      'AWS::CloudFormation::Designer':
+        id: 1bcb5ab2-140d-44c0-a722-74890604f185
+  ApiGatewayRestPOSTMethod:
+    Type: 'AWS::ApiGateway::Method'
+    Properties:
+      ResourceId: !GetAtt
+        - ApiGateway
+        - RootResourceId
+      RestApiId: !Ref ApiGateway
+      AuthorizationType: NONE
+      HttpMethod: POST
+      MethodResponses:
+        - StatusCode: '200'
+      Integration:
+        IntegrationHttpMethod: POST
+        Type: AWS
+        Uri: !Sub >-
+          arn:aws:apigateway:${AWS::Region}:lambda:path/2015-03-31/functions/${LambdaFunction.Arn}/invocations
+        IntegrationResponses:
+          - StatusCode: '200'
+  ApiGatewayDeploy:
+    DependsOn: ApiGatewayRestPOSTMethod
+    Type: 'AWS::ApiGateway::Deployment'
+    Properties:
+      RestApiId: !Ref ApiGateway
+      StageName: !Ref AWS::StackName
+  ApiGatewayBaseMapping:
+    DependsOn: ApiGatewayDeploy
+    Type: 'AWS::ApiGateway::BasePathMapping'
+    Properties:
+      BasePath: !Ref AWS::StackName
+      DomainName: 'api.vmadbro.com'
+      RestApiId: !Ref ApiGateway
+      Stage: !Ref AWS::StackName
+  LambdaPermission:
+    Type: 'AWS::Lambda::Permission'
+    Properties:
+      Action: 'lambda:InvokeFunction'
+      FunctionName: !GetAtt
+        - LambdaFunction
+        - Arn
+      Principal: apigateway.amazonaws.com

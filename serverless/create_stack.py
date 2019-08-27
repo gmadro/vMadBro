@@ -4,17 +4,30 @@ import time
 import zipfile
 import os
 import shutil
+import yaml
 
+#Instantiate AWS module
 cf = boto3.client('cloudformation')
 s3 = boto3.client('s3')
 
-#Define the stack
 print('Enter name of stack')
 stack = input()
-stack_file = stack + '.yaml'
+
 cwd = os.getcwd()
-lambda_base = 'lambda_test.py'
-lambda_file = 'index.py'
+
+#Open app config yaml
+with open(cwd + 'app_config.yaml') as f:
+    app_settings = yaml.safe_load(f)
+settings = app_settings['settings']
+
+#Values imported from app_config.yaml
+lambda_base = settings['lambda_base']
+cf_s3_bucket = settings['cf_s3_bucket']
+cf_base = settings['cf_base']
+lambda_file = settings['lambda_file']
+
+stack_file = stack + '.yaml'
+cf_tmpl_url = 'https://' + cf_s3_bucket + '.s3.amazonaws.com/' + stack_file
 lambda_zip = stack + '.zip'
 
 #Copy Base Lambda script to new file and zip
@@ -22,9 +35,8 @@ shutil.copy(lambda_base, lambda_file)
 with zipfile.ZipFile(lambda_zip, 'w') as azip:
         azip.write(lambda_file)
 
-s3.upload_file('/home/vMadBro/serverless/cf.yaml','vmadbro-cf',stack_file)
-s3.upload_file('/home/vMadBro/serverless/' + lambda_zip,'vmadbro-lambda-code', lambda_zip)
-cf_tmpl_url = 'https://vmadbro-cf.s3.amazonaws.com/' + stack_file
+s3.upload_file(cwd + cf_base,'vmadbro-cf',stack_file)
+s3.upload_file(cwd + lambda_zip,'vmadbro-lambda-code', lambda_zip)
 cf.create_stack(StackName=stack, TemplateURL=cf_tmpl_url)
 
 app_url = "https://api.vmadbro.com/" + stack + "/"
@@ -50,7 +62,7 @@ while True:
     test_num = test_num + 1
     if (r.status_code == 200):
         print("API result: " + r.text)
-        
+
         #Tear down stack
         print("Deleting stack: " + stack)
         cf.delete_stack(StackName=stack)
