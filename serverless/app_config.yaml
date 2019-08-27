@@ -5,3 +5,4 @@ settings:
   lambda_base: 'app_code.py'
   lambda_s3_bucket: 'vmadbro-lambda-code'
   lambda_file: 'index.py' #Lambda files must always be index.<extension>
+  app_test: 'app_test.py'
