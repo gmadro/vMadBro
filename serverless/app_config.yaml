@@ -1,4 +1,5 @@
 settings:
   lambda_base: 'lambda_test.py'
+  lambda_file: 'index.py' #Lambda files must always be index.<extension>
   cf_s3_bucket: 'vmadbro-cf'
   cf_base: 'cf_base.yaml'
