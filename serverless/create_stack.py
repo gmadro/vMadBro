@@ -20,7 +20,7 @@ with open(cwd + '/app_config.yaml') as f:
     app_settings = yaml.safe_load(f)
 settings = app_settings['settings']
 
-#Values imported from app_config.yaml
+#Set values imported from app_config.yaml
 api_base = settings['api_base']
 cf_base = settings['cf_base']
 cf_s3_bucket = settings['cf_s3_bucket']
@@ -37,12 +37,13 @@ shutil.copy(lambda_base, lambda_file)
 with zipfile.ZipFile(lambda_zip, 'w') as azip:
         azip.write(lambda_file)
 
+#Upload stack and lambda code to S3
 s3.upload_file(cwd + '/' + cf_base,cf_s3_bucket,stack_file)
 s3.upload_file(cwd + '/' + lambda_zip,lambda_s3_bucket, lambda_zip)
+
 cf.create_stack(StackName=stack, TemplateURL=cf_tmpl_url)
 
 app_url = api_base + stack + "/"
-
 print("API created at: " + app_url)
 
 #Set function test values
