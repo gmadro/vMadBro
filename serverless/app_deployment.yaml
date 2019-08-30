@@ -1,15 +1,10 @@
 resources:
-- name: vm-test
-  type: compute.v1.instance
+- name: test_function
+  type: app_code.py
   properties:
-    zone: us-central1-a
-    machineType: zones/us-central1-a/machineTypes/n1-standard-1
-    disks:
-    - deviceName: boot
-      type: PERSISTENT
-      boot: true
-      autoDelete: true
-      initializeParams:
-        sourceImage: projects/debian-cloud/global/images/family/debian-9
-    networkInterfaces:
-    - network: global/networks/default
+    codeLocation: /
+    location: us-central1
+    timeout: 5s
+    runtime: python37
+    availableMemoryMb: 128
+    
