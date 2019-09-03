@@ -1,3 +1,6 @@
+imports:
+  - path: /app_code.py
+
 resources:
 - name: test_function
   type: app_code.py
@@ -7,4 +10,4 @@ resources:
     timeout: 5s
     runtime: python37
     availableMemoryMb: 128
-    
+- name: function-call
