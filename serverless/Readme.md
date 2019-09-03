@@ -1,11 +1,17 @@
-#Serverless App deployment via Code
-###AWS
+# Serverless App deployment via Code
+
+### AWS
+
 - CloudFormation
 - API Gateway
 - Lambda
-###Azure
+
+### Azure
+
 - Resource Manager
 - Function App
-###GCP
+
+### GCP
+
 - Deployment Manager
 - Cloud Functions
