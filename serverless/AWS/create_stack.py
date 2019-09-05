@@ -14,6 +14,10 @@ print('Enter name of stack')
 stack = input()
 
 cwd = os.getcwd()
+cwd_count = len(cwd.split('/'))
+app_dir_items = cwd.split('/')[0:cwd_count - 1]
+s = '/'
+app_dir = s.join(app_dir_items) 
 
 #Open app config yaml
 with open(cwd + '/app_config.yaml') as f:
