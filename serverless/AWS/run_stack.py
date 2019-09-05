@@ -1,5 +1,6 @@
 import boto3
 import requests
+from colorama import Fore, Back, Style
 
 #Set function test values
 print('Enter first key value')
@@ -15,4 +16,4 @@ json_in = {
 url = 'https://76eumn73g9.execute-api.us-east-1.amazonaws.com/Hybrid1-Test'
 
 r = requests.post(url, json=json_in, verify=False)
-print("API result: " + r.text)
+print(Fore.GREEN + "API result: " + r.text)
