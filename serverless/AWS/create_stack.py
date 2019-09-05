@@ -20,7 +20,7 @@ s = '/'
 app_dir = s.join(app_dir_items) 
 
 #Open app config yaml
-with open(cwd + '/app_config.yaml') as f:
+with open(app_dir + '/AWS_app_config.yaml') as f:
     app_settings = yaml.safe_load(f)
 settings = app_settings['settings']
 
@@ -28,7 +28,7 @@ settings = app_settings['settings']
 api_base = settings['api_base']
 cf_base = settings['cf_base']
 cf_s3_bucket = settings['cf_s3_bucket']
-lambda_base = settings['lambda_base']
+lambda_base = app_dir + '/' + settings['lambda_base']
 lambda_s3_bucket = settings['lambda_s3_bucket']
 lambda_file = settings['lambda_file']
 
