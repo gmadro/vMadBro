@@ -54,9 +54,9 @@ print(Fore.GREEN + "API created at: " + Style.BRIGHT + app_url)
 print(Style.RESET_ALL)
 
 #Set function test values
-print('Enter first key value')
+print('Enter first key value:')
 v1 = input()
-print('Enter second key value')
+print('Enter second key value:')
 v2 = input()
 
 json_in = {
