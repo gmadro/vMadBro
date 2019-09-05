@@ -5,6 +5,7 @@ import zipfile
 import os
 import shutil
 import yaml
+from colorama import Fore, Back, Style
 
 #Instantiate AWS module
 cf = boto3.client('cloudformation')
@@ -13,11 +14,12 @@ s3 = boto3.client('s3')
 print('Enter name of stack')
 stack = input()
 
+#Set working dir and app dir
 cwd = os.getcwd()
 cwd_count = len(cwd.split('/'))
 app_dir_items = cwd.split('/')[0:cwd_count - 1]
 s = '/'
-app_dir = s.join(app_dir_items) 
+app_dir = s.join(app_dir_items)
 
 #Open app config yaml
 with open(app_dir + '/AWS_app_config.yaml') as f:
@@ -68,14 +70,16 @@ while True:
     r = requests.post(url = app_url, json=json_in, verify=False)
     test_num = test_num + 1
     if (r.status_code == 200):
-        print("API result: " + r.text)
+        print(Fore.GREEN + "API result: " + r.text)
 
         #Tear down stack
+        print(Fore.CYAN)
         print("Deleting stack: " + stack)
         cf.delete_stack(StackName=stack)
         os.remove(lambda_file)
         os.remove(lambda_zip)
         break
+        print(Style.RESET_ALL)
     print(r.status_code)
-    print("Attempt: " + str(test_num) + " Retrying attempt in 1s")
+    print("Attempt: " + Fore.YELLOW + str(test_num) + Style.RESET_ALL + " Retrying attempt in 1s")
     time.sleep(1)
