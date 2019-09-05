@@ -17,3 +17,4 @@ url = 'https://76eumn73g9.execute-api.us-east-1.amazonaws.com/Hybrid1-Test'
 
 r = requests.post(url, json=json_in, verify=False)
 print(Fore.GREEN + "API result: " + r.text)
+print(Style.RESET_ALL)
