@@ -50,7 +50,8 @@ s3.upload_file(cwd + '/' + lambda_zip,lambda_s3_bucket, lambda_zip)
 cf.create_stack(StackName=stack, TemplateURL=cf_tmpl_url)
 
 app_url = api_base + stack + "/"
-print("API created at: " + app_url)
+print(Fore.GREEN + "API created at: " + app_url)
+print(Style.RESET_ALL)
 
 #Set function test values
 print('Enter first key value')
@@ -79,7 +80,7 @@ while True:
         os.remove(lambda_file)
         os.remove(lambda_zip)
         break
-        print(Style.RESET_ALL)
     print(r.status_code)
     print("Attempt: " + Fore.YELLOW + str(test_num) + Style.RESET_ALL + " Retrying attempt in 1s")
     time.sleep(1)
+print(Style.RESET_ALL)
