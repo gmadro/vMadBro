@@ -50,7 +50,7 @@ s3.upload_file(cwd + '/' + lambda_zip,lambda_s3_bucket, lambda_zip)
 cf.create_stack(StackName=stack, TemplateURL=cf_tmpl_url)
 
 app_url = api_base + stack + "/"
-print(Fore.GREEN + "API created at: " + app_url)
+print(Fore.GREEN + "API created at: " + Style.BRIGHT + app_url)
 print(Style.RESET_ALL)
 
 #Set function test values
@@ -75,12 +75,12 @@ while True:
 
         #Tear down stack
         print(Fore.CYAN)
-        print("Deleting stack: " + stack)
+        print("Deleting stack: " + Style.BRIGHT + stack)
         cf.delete_stack(StackName=stack)
         os.remove(lambda_file)
         os.remove(lambda_zip)
         break
-    print(r.status_code)
+    #print(r.status_code)
     print("Attempt: " + Fore.YELLOW + str(test_num) + Style.RESET_ALL + " Retrying attempt in 1s")
     time.sleep(1)
 print(Style.RESET_ALL)
