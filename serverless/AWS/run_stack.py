@@ -45,7 +45,7 @@ s3.upload_file(cwd + '/' + lambda_zip, lambda_s3_bucket, lambda_zip)
 #Update Lambda code
 lmbda.update_function_code(
     FunctionName = 'arn:aws:lambda:us-east-1:501511055678:function:Hybrid1-Test',
-    S3Bucket = 'vmadbro-lambda-code',
+    S3Bucket = lambda_s3_bucket,
     S3Key = lambda_zip,
     Publish = True
 )
@@ -68,3 +68,11 @@ url = 'https://76eumn73g9.execute-api.us-east-1.amazonaws.com/Hybrid1-Test'
 r = requests.post(url, json=json_in, verify=False)
 print(Fore.GREEN + "API result: " + Style.BRIGHT + r.text)
 print(Style.RESET_ALL)
+
+#Cleanup app
+os.remove(lambda_file)
+os.remove(lambda_zip)
+s3.delete_object(
+    Bucket = lambda_s3_bucket,
+    Key = lambda_zip
+)

@@ -73,7 +73,7 @@ while True:
     if (r.status_code == 200):
         print(Fore.GREEN + "API result: " + r.text)
 
-        #Tear down stack
+        #Cleanup stack
         print(Fore.CYAN)
         print("Deleting stack: " + Style.BRIGHT + stack)
         cf.delete_stack(StackName=stack)
