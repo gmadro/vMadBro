@@ -46,7 +46,7 @@ s3.upload_file(cwd + '/' + lambda_zip, lambda_s3_bucket, lambda_zip)
 lmbda.update_function_code(
     FunctionName = 'arn:aws:lambda:us-east-1:501511055678:function:Hybrid1-Test',
     S3Bucket = 'vmadbro-lambda-code',
-    S3Key = '',
+    S3Key = lambda_zip,
     Publish = True
 )
 
