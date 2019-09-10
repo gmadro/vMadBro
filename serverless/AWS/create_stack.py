@@ -44,8 +44,8 @@ with zipfile.ZipFile(lambda_zip, 'w') as azip:
         azip.write(lambda_file)
 
 #Upload stack and lambda code to S3
-s3.upload_file(cwd + '/' + cf_base,cf_s3_bucket,stack_file)
-s3.upload_file(cwd + '/' + lambda_zip,lambda_s3_bucket, lambda_zip)
+s3.upload_file(cwd + '/' + cf_base, cf_s3_bucket, stack_file)
+s3.upload_file(cwd + '/' + lambda_zip, lambda_s3_bucket, lambda_zip)
 
 cf.create_stack(StackName=stack, TemplateURL=cf_tmpl_url)
 

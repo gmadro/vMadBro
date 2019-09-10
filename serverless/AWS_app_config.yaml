@@ -3,6 +3,7 @@ settings:
   cf_base: 'app_stack.yaml'
   cf_s3_bucket: 'vmadbro-cf'
   lambda_base: 'app_code.py'
+  lambda_base_new: 'app_code_new.py'
   lambda_s3_bucket: 'vmadbro-lambda-code'
   lambda_file: 'index.py' #Lambda files must always be index.<extension>
   app_test: 'app_test.py'
