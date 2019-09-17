@@ -7,7 +7,7 @@ import shutil
 import yaml
 from colorama import Fore, Back, Style
 
-#Instantiate AWS module
+#Instantiate AWS classes
 cf = boto3.client('cloudformation')
 s3 = boto3.client('s3')
 

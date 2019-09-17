@@ -6,4 +6,6 @@ settings:
   lambda_base_new: 'app_code_new.py'
   lambda_s3_bucket: 'vmadbro-lambda-code'
   lambda_file: 'index.py' #Lambda files must always be index.<extension>
+  lambda_static_url: 'https://76eumn73g9.execute-api.us-east-1.amazonaws.com/Hybrid1-Test'
+  lambdba_static_name: 'arn:aws:lambda:us-east-1:501511055678:function:Hybrid1-Test'
   app_test: 'app_test.py'

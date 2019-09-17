@@ -7,7 +7,7 @@ import shutil
 import yaml
 from colorama import Fore, Back, Style
 
-#Instantiate AWS module
+#Instantiate AWS classes
 lmbda = boto3.client('lambda')
 s3 = boto3.client('s3')
 
@@ -31,6 +31,8 @@ api_base = settings['api_base']
 lambda_base_new = app_dir + '/' + settings['lambda_base_new']
 lambda_s3_bucket = settings['lambda_s3_bucket']
 lambda_file = settings['lambda_file']
+lambda_static_name = settings['lambda_static_name']
+lambda_static_url = settings['lambda_static_url']
 
 lambda_zip = app + '.zip'
 
@@ -44,7 +46,7 @@ s3.upload_file(cwd + '/' + lambda_zip, lambda_s3_bucket, lambda_zip)
 
 #Update Lambda code
 lmbda.update_function_code(
-    FunctionName = 'arn:aws:lambda:us-east-1:501511055678:function:Hybrid1-Test',
+    FunctionName = lambda_static_name,
     S3Bucket = lambda_s3_bucket,
     S3Key = lambda_zip,
     Publish = True
@@ -63,7 +65,7 @@ json_in = {
 
 print('Running new code:')
 
-url = 'https://76eumn73g9.execute-api.us-east-1.amazonaws.com/Hybrid1-Test'
+url = lambda_static_url
 
 r = requests.post(url, json=json_in, verify=False)
 print(Fore.GREEN + "API result: " + Style.BRIGHT + r.text)
