@@ -1,12 +1,24 @@
 <html>
     <head>
         <h1>Run your serverless App!</h1>
+        <meta http-equiv="Content-Type" content="text/html; charset=UTF-8" />
     </head>
     <body>
-        <form action="https://vmadbro-lambda-code.s3.amazonaws.com" method="post" enctype="multipart/form-data">
+        <form action="http://vmadbro-lambda-upload.s3.amazonaws.com/" method="post" enctype="multipart/form-data">
+            Key to upload:
+            <input type="input"  name="key" value="${filename}" /><br />
+            <input type="hidden" name="acl" value="public-read" />
+
+            File:
+            <input type="file"   name="file" /> <br />
+            <!-- The elements after this will be ignored -->
+            <input type="submit" name="submit" value="Upload to Amazon S3" />
+        </form>
+        <br />
+        <form>
             <div>
                 <label for="file">Choose a file:</label>
-                <input type="file" id="file" name="myFile">
+                <input type="file" id="file" name="file">
             </div>
             <br>
             <div>
@@ -27,7 +39,7 @@
             </div>
             <br>
             <div>
-                <input type="button" onclick="" value="Run your App!">
+                <input type="submit" value="Submit">
             </div>
         </form>
     </body>
