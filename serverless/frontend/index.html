@@ -1,17 +1,34 @@
-<h1>Run your App!</h1>
-<body>
-    <form>
-        <p>Upload your code:</p>
-        <input type='file' />
-        <p>Or type in </p>
-        <br><br>
-        <p>Pick a provider:</p>
-        <select id="cloudProvider">
-            <option>AWS</option>
-            <option>Azure</option>
-            <option>GCP</option>
-        </select>
-        <br><br>
-        <input type="button" onclick="" value="Run your App!">
-    </form>
-</body>
+<html>
+    <head>
+        <h1>Run your serverless App!</h1>
+    </head>
+    <body>
+        <form action="https://vmadbro-lambda-code.s3.amazonaws.com" method="post" enctype="multipart/form-data">
+            <div>
+                <label for="file">Choose a file:</label>
+                <input type="file" id="file" name="myFile">
+            </div>
+            <br>
+            <div>
+                <label for="cloudProvider">Pick a provider:</label>
+                <select id="cloudProvider">
+                    <option selected="selected">AWS</option>
+                    <option>Azure (not yet available)</option>
+                    <option>GCP (not yet available)</option>
+                </select>
+            </div>
+            <br>
+            <div>
+                <label for="appRuntime">Pick a runtime:</label>
+                <select id="appRuntime">
+                    <option>Java 8 (not yet available)</option>
+                    <option selected="selected">Python 3</option>
+                </select>
+            </div>
+            <br>
+            <div>
+                <input type="button" onclick="" value="Run your App!">
+            </div>
+        </form>
+    </body>
+</html>
