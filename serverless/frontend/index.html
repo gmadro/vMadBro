@@ -1,45 +1,64 @@
+<!DOCTYPE html>
 <html>
     <head>
         <h1>Run your serverless App!</h1>
         <meta http-equiv="Content-Type" content="text/html; charset=UTF-8" />
+        <link rel="stylesheet" href="styles.css">
     </head>
-    <body>
-        <form action="http://vmadbro-lambda-upload.s3.amazonaws.com/" method="post" enctype="multipart/form-data">
-            Key to upload:
-            <input type="input"  name="key" value="${filename}" /><br />
 
-            File:
-            <input type="file"   name="file" /> <br />
-            <!-- The elements after this will be ignored -->
-            <input type="submit" name="submit" value="Upload to Amazon S3" />
-        </form>
-        <br />
-        <form>
-            <div>
-                <label for="file">Choose a file:</label>
-                <input type="file" id="file" name="file">
-            </div>
-            <br>
-            <div>
+    <body>
+        <div>
+            <form>
                 <label for="cloudProvider">Pick a provider:</label>
-                <select id="cloudProvider">
-                    <option selected="selected">AWS</option>
-                    <option>Azure (not yet available)</option>
-                    <option>GCP (not yet available)</option>
+                <select id="cloudProvider" onchange="showUpload()">
+                    <option value="aws" selected="selected">AWS</option>
+                    <option value="azure">Azure (not yet available)</option>
+                    <option value="gcp">GCP (not yet available)</option>
                 </select>
-            </div>
-            <br>
-            <div>
+                <br>
                 <label for="appRuntime">Pick a runtime:</label>
                 <select id="appRuntime">
                     <option>Java 8 (not yet available)</option>
                     <option selected="selected">Python 3</option>
                 </select>
-            </div>
-            <br>
-            <div>
-                <input type="submit" value="Submit">
-            </div>
-        </form>
+            </form>
+            <br />
+
+            <form id="aws" action="http://vmadbro-lambda-upload.s3.amazonaws.com/" method="post" enctype="multipart/form-data">
+                <input type="hidden"  name="key" value="${filename}" />
+                <input type="file"   name="file" />
+                <br/>
+                <input type="submit" name="submit" value="Upload to Amazon S3" />
+            </form>
+            <br />
+
+            <form id="azure" action="http://vmadbro-lambda-upload.s3.amazonaws.com/" method="post" enctype="multipart/form-data">
+                <input type="hidden"  name="key" value="${filename}" />
+                <input type="file"   name="file" />
+                <br/>
+                <input type="submit" name="submit" value="Upload to Azure BLOB" />
+            </form>
+            <br />
+
+            <form id="gcp" action="http://vmadbro-lambda-upload.s3.amazonaws.com/" method="post" enctype="multipart/form-data">
+                <input type="hidden"  name="key" value="${filename}" />
+                <input type="file"   name="file" />
+                <br/>
+                <input type="submit" name="submit" value="Upload to GCP" />
+            </form>
+
+            <form>
+                <label id=lblTest>Test</label>
+            </form>
+        </div>
+
+    <script>
+        function showUpload() {
+            x = document.getElementById("cloudProvider").querySelectorAll("aws")
+            document.getElementById("lblTest").text = x
+            document.getElementById("aws").style.display = "block";
+        }
+    </script>
+
     </body>
 </html>
