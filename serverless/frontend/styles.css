@@ -12,3 +12,25 @@ div {
 #gcp {
     display: none;
 }
+input[type=text], [type=file], select {
+    width: 25%;
+    padding: 6px 10px;
+    margin: 4px 0;
+    display: inline-block;
+    border: 1px solid #ccc;
+    border-radius: 4px;
+    box-sizing: border-box;
+}
+input[type=submit] {
+    width: 25%;
+    background-color: #4CAF50;
+    color: white;
+    padding: 7px 10px;
+    margin: 4px 0;
+    border: none;
+    border-radius: 4px;
+    cursor: pointer;
+}
+input[type=submit]:hover {
+    background-color: #45a049;
+}

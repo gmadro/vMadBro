@@ -11,7 +11,8 @@
             <form>
                 <label for="cloudProvider">Pick a provider:</label>
                 <select id="cloudProvider" onchange="showUpload()">
-                    <option value="aws" selected="selected">AWS</option>
+                    <option value="" selected="selected"></option>
+                    <option value="aws">AWS</option>
                     <option value="azure">Azure (not yet available)</option>
                     <option value="gcp">GCP (not yet available)</option>
                 </select>
@@ -46,19 +47,9 @@
                 <br/>
                 <input type="submit" name="submit" value="Upload to GCP" />
             </form>
-
-            <form>
-                <label id=lblTest>Test</label>
-            </form>
         </div>
 
-    <script>
-        function showUpload() {
-            x = document.getElementById("cloudProvider").querySelectorAll("aws")
-            document.getElementById("lblTest").text = x
-            document.getElementById("aws").style.display = "block";
-        }
-    </script>
+    <script type="text/javascript" src="provider.js"></script>
 
     </body>
 </html>
