@@ -26,24 +26,25 @@
             <br />
 
             <form id="aws" action="http://vmadbro-lambda-upload.s3.amazonaws.com/" method="post" enctype="multipart/form-data">
-                <input type="hidden"  name="key" value="${filename}" />
-                <input type="file"   name="file" />
+                <input type="hidden" name="key" value="${filename}" />
+                <input type="hidden" name="success_action_redirect" value="http://runmyapp.vmadbro.com.s3.amazonaws.com/run.html" />
+                <input type="file" name="file" />
                 <br/>
                 <input type="submit" name="submit" value="Upload to Amazon S3" />
             </form>
             <br />
 
-            <form id="azure" action="http://vmadbro-lambda-upload.s3.amazonaws.com/" method="post" enctype="multipart/form-data">
-                <input type="hidden"  name="key" value="${filename}" />
-                <input type="file"   name="file" />
+            <form id="azure" action="" method="post" enctype="multipart/form-data">
+                <input type="hidden" name="key" value="${filename}" />
+                <input type="file" name="file" />
                 <br/>
                 <input type="submit" name="submit" value="Upload to Azure BLOB" />
             </form>
             <br />
 
-            <form id="gcp" action="http://vmadbro-lambda-upload.s3.amazonaws.com/" method="post" enctype="multipart/form-data">
-                <input type="hidden"  name="key" value="${filename}" />
-                <input type="file"   name="file" />
+            <form id="gcp" action="" method="post" enctype="multipart/form-data">
+                <input type="hidden" name="key" value="${filename}" />
+                <input type="file" name="file" />
                 <br/>
                 <input type="submit" name="submit" value="Upload to GCP" />
             </form>
