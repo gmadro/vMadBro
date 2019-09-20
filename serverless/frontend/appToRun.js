@@ -1,6 +1,4 @@
 function getFileParam() {
-    var params = new URLSearchParams(document.location.search);
-    var file = params.get("file");
-    document.getElementById("file").innerHTML = file;
-    alert(file);
+    var params = location.search.substring(1).split("&")[0]
+    alert(params);
 }

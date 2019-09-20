@@ -8,7 +8,7 @@
 
     <script type="text/javascript" src="appToRun.js"></script>
 
-    <body>
+    <body onload="getFileParam()">
         <div>
             <form>
                 <label id="file"></label>
@@ -17,6 +17,8 @@
                     <option>Java 8 (not yet available)</option>
                     <option>Python 3</option>
                 </select>
+                <br/>
+                <input type="submit" name="submit" value="Run on AWS" />
             </form>
         </div>
     </body>
