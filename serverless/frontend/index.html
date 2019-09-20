@@ -16,18 +16,12 @@
                     <option value="azure">Azure (not yet available)</option>
                     <option value="gcp">GCP (not yet available)</option>
                 </select>
-                <br>
-                <label for="appRuntime">Pick a runtime:</label>
-                <select id="appRuntime">
-                    <option>Java 8 (not yet available)</option>
-                    <option selected="selected">Python 3</option>
-                </select>
             </form>
             <br />
 
             <form id="aws" action="http://vmadbro-lambda-upload.s3.amazonaws.com/" method="post" enctype="multipart/form-data">
                 <input type="hidden" name="key" value="${filename}" />
-                <input type="hidden" name="success_action_redirect" value="http://runmyapp.vmadbro.com.s3.amazonaws.com/run.html" />
+                <input type="hidden" name="success_action_redirect" value="http://runmyapp.vmadbro.com.s3.amazonaws.com/run.html?file=${filename}" />
                 <input type="file" name="file" />
                 <br/>
                 <input type="submit" name="submit" value="Upload to Amazon S3" />
