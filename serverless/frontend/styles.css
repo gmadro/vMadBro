@@ -1,5 +1,6 @@
 body {
     width: 50%;
+    border: 1px solid rgb(0, 0, 0);
 }
 div {
     border-radius: 5px;
@@ -26,7 +27,7 @@ input[type=text], [type=file], select {
 }
 input[type=submit] {
     width: 25%;
-    background-color: #4CAF50;
+    background-color: #3e36ad;
     color: white;
     padding: 7px 10px;
     margin: 4px 0;
@@ -35,5 +36,5 @@ input[type=submit] {
     cursor: pointer;
 }
 input[type=submit]:hover {
-    background-color: #45a049;
+    background-color: #2c2679;
 }
