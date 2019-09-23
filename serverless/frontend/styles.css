@@ -1,11 +1,14 @@
 body {
-    width: 50%;
+    width: 75%;
     border: 1px solid rgb(0, 0, 0);
 }
+h1 {
+    text-align: center;
+}
 div {
-    border-radius: 5px;
+    border-top: 1px solid rgb(0, 0, 0);
     background-color: #f2f2f2;
-    padding: 20px;
+    padding: 10px;
 }
 #aws {
     display: none;
@@ -17,7 +20,7 @@ div {
     display: none;
 }
 input[type=text], [type=file], select {
-    width: 25%;
+    width: 35%;
     padding: 6px 10px;
     margin: 4px 0;
     display: inline-block;
@@ -26,7 +29,7 @@ input[type=text], [type=file], select {
     box-sizing: border-box;
 }
 input[type=submit] {
-    width: 25%;
+    width: 35%;
     background-color: #3e36ad;
     color: white;
     padding: 7px 10px;
