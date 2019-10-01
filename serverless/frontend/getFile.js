@@ -3,10 +3,5 @@ function getFileParam() {
     document.getElementById("file").innerHTML = `Run: ${params} with:`;
 }
 function convertForm() {
-    const formData = new FormData();
-    let jsonObject = {};
-
-    for (const [key, value] of formData.entries()) {
-        jsonObject[key] = value;
-    }
+    var formData = JSON.stringify($("#runApp").serializeArray());
 }
