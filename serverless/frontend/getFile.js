@@ -4,4 +4,5 @@ function getFileParam() {
 }
 function convertForm() {
     var formData = JSON.stringify($("#runApp").serializeArray());
+    alert(formData)
 }
