@@ -11,7 +11,7 @@
     <body onload="getFileParam()">
         <div>
             <form name="runApp" action="https://m9z4lq8lfb.execute-api.us-east-1.amazonaws.com/Update-Lambda1" method="post">
-                <label id="file"></label>
+                <label id="fileLabel"></label>
                 <select id="appRuntime">
                     <option selected="selected"></option>
                     <option>Java 8 (not yet available)</option>
@@ -21,7 +21,7 @@
                 <input type="submit" name="submit" value="Run on AWS" onclick="convertForm()"/>
                 <input type="hidden" name="lambda_static_name" value="arn:aws:lambda:us-east-1:501511055678:function:Hybrid1-Test" />
                 <input type="hidden" name="lamdba_s3_bucket" value="vmadbro-lambda-code" />
-                <input type="hidden" name="lambda_zip" value="file" />
+                <input type="hidden" name="lambda_zip" value="${file}" />
             </form>
         </div>
     </body>
