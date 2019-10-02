@@ -2,7 +2,13 @@ function getFileParam() {
     var params = location.search.substring(1).split("&")[0].split("=")[1];
     document.getElementById("file").innerHTML = params;
 }
-function convertForm() {
-    var formData = JSON.stringify($("#runApp").serializeArray());
-    alert(formData);
+function restPost(url = '', data = {}) {
+    const response = await fetch(url', {
+        method: 'POST',
+        body: JSON.stringify(data), 
+        headers: {
+            'Content-Type': 'application/json'
+        }
+    });
+    return await response.json()
 }
