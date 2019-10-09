@@ -10,5 +10,6 @@ s = '/'
 tf_dir = s.join(tf_dir_items)
 
 os.system(tf_dir + '/terraform init')
-os.system(tf_dir + '/terraform plan' + tf_function_name + ' ' + cwd)
+print(tf_dir + '/terraform plan' + tf_function_name + ' ' + cwd)
+#os.system(tf_dir + '/terraform plan' + tf_function_name + ' ' + cwd)
 #os.system(tf_dir + '/terraform apply' + tf_plan)
