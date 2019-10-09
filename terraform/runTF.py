@@ -15,5 +15,6 @@ os.system(tf_dir + '/terraform init')
 #os.system(tf_dir + '/terraform plan -var-file=' + aws_tf_var_file + ' ' + cwd)
 #os.system(tf_dir + '/terraform apply -var-file=' + aws_tf_var_file + ' ' + cwd)
 #GCP
+print(tf_dir + '/terraform plan -var-file=' + gcp_tf_var_file + ' ' + cwd)
 os.system(tf_dir + '/terraform plan -var-file=' + gcp_tf_var_file + ' ' + cwd)
 #os.system(tf_dir + '/terraform apply -var-file=' + aws_tf_var_file + ' ' + cwd)
