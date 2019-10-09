@@ -6,4 +6,5 @@ tf_dir_items = cwd.split('/')[0:cwd_count - 2]
 s = '/'
 tf_dir = s.join(tf_dir_items)
 
+os.system(tf_dir + '/terraform init')
 os.system(tf_dir + '/terraform plan ' + cwd)
