@@ -1,0 +1,5 @@
+source_archive_bucket = "vmadbro-code"
+source_archive_object = "main.zip"
+name = "TFpyFunction"
+entry_point = "main"
+gcp_runtime = "python37"

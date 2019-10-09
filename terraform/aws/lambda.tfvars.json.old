@@ -1,8 +1,0 @@
-{
-    "s3_bucket": "vmadbro-lambda-code",
-    "s3_key": "app_code_change.zip",
-    "function_name": "TFpyFunction",
-    "role": "arn:aws:iam::501511055678:role/basic-lambda-role",
-    "handler": "index.main",
-    "runtime": "python3.7"
-}
