@@ -6,8 +6,8 @@ provider "google" {
 }
 
 resource "google_cloudfunctions_function" "GCPfunction"{
-    name = var.name
-    runtime = var.gcp_runtime
+    name = "GCPterraform"
+    runtime = "python37"
     source_archive_bucket = var.source_archive_bucket
     source_archive_object = var.source_archive_object
     entry_point = var.entry_point
