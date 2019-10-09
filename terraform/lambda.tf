@@ -1,3 +1,27 @@
+variable "s3_bucket" {
+  type = string
+}
+
+variable "s3_key" {
+  type = string
+}
+
+variable "function_name" {
+  type = string
+}
+
+variable "role" {
+  type = string
+}
+
+variable "handler" {
+  type = string
+}
+
+variable "runtime" {
+  type = string
+}
+
 provider "aws" {
   region = "us-east-1"
   shared_credentials_file = "$HOME/.aws/credentials"
