@@ -2,7 +2,7 @@ import os
 
 aws_tf_plan = 'lambda.tf'
 aws_tf_var_file = 'lambda.tfvars.json'
-gcp_tf_vra_file = 'cloudFunctions.tfvars.json'
+gcp_tf_var_file = 'cloudFunctions.tfvars.json'
 
 cwd = os.getcwd()
 cwd_count = len(cwd.split('/'))
