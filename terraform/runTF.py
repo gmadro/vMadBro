@@ -9,7 +9,7 @@ TF_DIR = S.join(TF_DIR_ITEMS)
 os.system(TF_DIR + '/terraform init')
 
 #AWS
-print(TF_DIR + '/terraform plan '  + CWD + 'aws')
+print(TF_DIR + '/terraform plan '  + CWD + '/aws')
 #os.system(tf_dir + '/terraform apply -var-file=' + aws_tf_var_file + ' ' + cwd)
 
 #GCP
