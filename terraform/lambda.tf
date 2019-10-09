@@ -4,10 +4,10 @@ provider "aws" {
 }
 
 resource "aws_lambda_function" "terraformFunction" {
-  s3_bucket = "vmadbro-lambda-code"
-  s3_key = "app_code_change.zip"
-  function_name = "terraformFunction"
-  role = "arn:aws:iam::501511055678:role/basic-lambda-role"
-  handler = "index.main"
-  runtime = "python3.7"
+  s3_bucket = var.s3_bucket
+  s3_key = var.s3_key
+  function_name = var.function_name
+  role = var.role
+  handler = var.handler
+  runtime = var.runtime
 }
