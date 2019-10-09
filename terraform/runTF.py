@@ -1,8 +1,8 @@
 import os
 
-tf_plan = 'lambda.tf'
-tf_var_file = 'lambda.tfvars.json'
-#tf_function_name = "-var 'function_name=TFpyFunction'"
+aws_tf_plan = 'lambda.tf'
+aws_tf_var_file = 'lambda.tfvars.json'
+gcp_tf_vra_file = 'cloudFunctions.tfvars.json'
 
 cwd = os.getcwd()
 cwd_count = len(cwd.split('/'))
@@ -11,6 +11,9 @@ s = '/'
 tf_dir = s.join(tf_dir_items)
 
 os.system(tf_dir + '/terraform init')
-#print(tf_dir + '/terraform plan ' + tf_function_name + ' ' + cwd)
-os.system(tf_dir + '/terraform plan -var-file=' + tf_var_file + ' ' + cwd)
-os.system(tf_dir + '/terraform apply -var-file=' + tf_var_file + ' ' + cwd)
+#AWS
+os.system(tf_dir + '/terraform plan -var-file=' + aws_tf_var_file + ' ' + cwd)
+os.system(tf_dir + '/terraform apply -var-file=' + aws_tf_var_file + ' ' + cwd)
+#GCP
+os.system(tf_dir + '/terraform plan -var-file=' + gcp_tf_vra_file + ' ' + cwd)
+#os.system(tf_dir + '/terraform apply -var-file=' + aws_tf_var_file + ' ' + cwd)
