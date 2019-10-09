@@ -14,10 +14,8 @@ resource "google_cloudfunctions_function" "GCPfunction"{
 }
 
 resource "google_cloudfunctions_function_iam_member" "admin" {
-    project = "MVMV01"
     region = "us-east-1"
     cloud_function = "${google_cloudfunctions_function.function.name}"
-
     role = "roles/cloudfunctions.admin"
     member = "vmadbrogcp-cf@utility-braid-166722.iam.gserviceaccount.com"
 }
