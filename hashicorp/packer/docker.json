@@ -1,5 +1,7 @@
 {
-    "type": "docker",
-    "image": "ubuntu",
-    "commit": true
+    "builders": [{
+        "type": "docker",
+        "image": "ubuntu",
+        "commit": true
+    }]
 }
