@@ -9,6 +9,7 @@ TF_DIR = S.join(TF_DIR_ITEMS)
 os.system('terraform init ' + CWD + '/aws')
 os.system('terraform plan ' + CWD + '/aws')
 
+
 #GCP
 #os.system(tf_dir + '/terraform plan -var-file=' + gcp_tf_var_file + ' ' + cwd)
 #os.system(tf_dir + '/terraform apply -var-file=' + aws_tf_var_file + ' ' + cwd)
