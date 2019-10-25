@@ -12,6 +12,6 @@ jobs:
     steps:
     - name: Test
       env:
-        x1: New Var
+        x1: ${{ secrets.test_secret }}
       run: 
         echo $x1
