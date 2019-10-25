@@ -1,0 +1,17 @@
+name: Mark stale issues and pull requests
+
+on:
+  schedule:
+  - cron: "0/* * * * *"
+
+jobs:
+  test1:
+
+    runs-on: ubuntu-latest
+
+    steps:
+    - name: Test
+      env:
+        x1: Test
+      run: 
+        echo $x1
