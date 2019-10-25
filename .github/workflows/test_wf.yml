@@ -2,7 +2,7 @@ name: Test Workflow
 
 on:
   schedule:
-  - cron: "* * * * *"
+  - cron: "*/10 * * * *"
 
 jobs:
   test1:
@@ -12,6 +12,6 @@ jobs:
     steps:
     - name: Test
       env:
-        x1: Test
+        x1: New Var
       run: 
         echo $x1
