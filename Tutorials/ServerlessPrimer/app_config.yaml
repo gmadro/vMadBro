@@ -1,0 +1,4 @@
+settings:
+  cf_base: 'app_lambda.yaml'
+  lambda_base: 'app_code.py'
+  lambda_file: 'index.py' #Lambda files must always be index.<extension>
