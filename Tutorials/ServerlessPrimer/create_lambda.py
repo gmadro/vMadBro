@@ -66,7 +66,7 @@ def Delete_Lambda():
     print('List of Stacks:')
 
     #Get list of CloudFormation stacks
-    ss = cf.list_stacks()['StackSummaries']
+    ss = cf.list_stacks(StackStatusFilter='ROLLBACK_IN_PROGRESS')['StackSummaries']
     for x in ss:
         print(x['StackName'])
 
