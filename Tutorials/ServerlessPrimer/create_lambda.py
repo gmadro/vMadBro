@@ -12,17 +12,17 @@ print('(C)reate or (D)elete LambdaStack?:')
 cORd = input().lower()
 
 if cORd == 'c':
-    Create()
+    Create_Lamdbda()
 elif cORd == 'create':
-    Create()
+    Create_Lamdbda()
 elif cORd == 'd':
-    Delete()
+    Delete_Lambda()
 elif cORd == 'delete':
-    Delete()
+    Delete_Lambda()
 else:
     print('Bad option. Try again!')
 
-def Create():
+def Create_Lamdbda():
     print('Enter name of stack:')
     stack = input()
 
@@ -61,7 +61,7 @@ def Create():
     os.remove(lambda_file)
     os.remove(lambda_zip)
 
-def Delete():
+def Delete_Lambda():
     print('List of Stacks:')
 
     #Get list of CloudFormation stacks
