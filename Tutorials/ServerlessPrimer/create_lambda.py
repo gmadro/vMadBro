@@ -3,6 +3,7 @@ import zipfile
 import os
 import shutil
 import yaml
+import time
 
 #Instantiate AWS classes
 cf = boto3.client('cloudformation')
@@ -76,9 +77,11 @@ def Delete_Lambda():
 
     #Remove CloudFormation stack and associated S3 Buckets
     cf.delete_stack(StackName=stack_purge)
-    s3.delete_object(Bucket=stack_purge + '-cf', Key=stack_purge)
+    s3.delete_object(Bucket=stack_purge + '-cf', Key=stack_purge + '.yaml')
+    time.sleep(1)
     s3.delete_bucket(Bucket=stack_purge + '-cf')
-    s3.delete_object(Bucket=stack_purge + '-lambda', Key=stack_purge)
+    s3.delete_object(Bucket=stack_purge + '-lambda', Key=stack_purge + '.zip')
+    time.sleep(1)
     s3.delete_bucket(Bucket=stack_purge + '-lambda')
 
 main()
