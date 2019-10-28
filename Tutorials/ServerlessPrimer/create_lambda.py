@@ -8,40 +8,73 @@ import yaml
 cf = boto3.client('cloudformation')
 s3 = boto3.client('s3')
 
-print('Enter name of stack')
-stack = input()
+print('(C)reate or (D)elete LambdaStack?:')
+cORd = input().lower()
 
-#Open app config yaml
-with open('app_config.yaml') as f:
-    app_settings = yaml.safe_load(f)
-settings = app_settings['settings']
+if cORd == 'c':
+    Create()
+elif cORd == 'create':
+    Create()
+elif cORd == 'd':
+    Delete()
+elif cORd == 'delete':
+    Delete()
+else:
+    print('Bad option. Try again!')
 
-#Set values imported from app_config.yaml
-cf_base = settings['cf_base']
-lambda_base = settings['lambda_base']
-lambda_file = settings['lambda_file']
+def Create():
+    print('Enter name of stack:')
+    stack = input()
 
-#Create CloudFormation template and Lambda code buckets
-cf_s3_bucket = stack + '-cf'.lower()
-s3.create_bucket(Bucket=cf_s3_bucket)
-lambda_s3_bucket = stack + '-lambda'.lower()
-s3.create_bucket(Bucket=lambda_s3_bucket)
+    #Open app config yaml
+    with open('app_config.yaml') as f:
+        app_settings = yaml.safe_load(f)
+    settings = app_settings['settings']
 
-stack_file = stack + '.yaml'
-cf_tmpl_url = 'https://' + cf_s3_bucket + '.s3.amazonaws.com/' + stack_file
-lambda_zip = stack + '.zip'
+    #Set values imported from app_config.yaml
+    cf_base = settings['cf_base']
+    lambda_base = settings['lambda_base']
+    lambda_file = settings['lambda_file']
 
-#Copy Base Lambda script to new file and zip
-shutil.copy(lambda_base, lambda_file)
-with zipfile.ZipFile(lambda_zip, 'w') as azip:
-        azip.write(lambda_file)
+    #Create CloudFormation template and Lambda code buckets
+    cf_s3_bucket = stack + '-cf'.lower()
+    s3.create_bucket(Bucket=cf_s3_bucket)
+    lambda_s3_bucket = stack + '-lambda'.lower()
+    s3.create_bucket(Bucket=lambda_s3_bucket)
 
-#Upload stack and lambda code to S3
-s3.upload_file(cf_base, cf_s3_bucket, stack_file)
-s3.upload_file(lambda_zip, lambda_s3_bucket, lambda_zip)
+    stack_file = stack + '.yaml'
+    cf_tmpl_url = 'https://' + cf_s3_bucket + '.s3.amazonaws.com/' + stack_file
+    lambda_zip = stack + '.zip'
 
-cf.create_stack(StackName=stack, TemplateURL=cf_tmpl_url)
+    #Copy Base Lambda script to new file and zip
+    shutil.copy(lambda_base, lambda_file)
+    with zipfile.ZipFile(lambda_zip, 'w') as azip:
+            azip.write(lambda_file)
 
-#Clean up local resources
-os.remove(lambda_file)
-os.remove(lambda_zip)
+    #Upload stack and lambda code to S3
+    s3.upload_file(cf_base, cf_s3_bucket, stack_file)
+    s3.upload_file(lambda_zip, lambda_s3_bucket, lambda_zip)
+
+    cf.create_stack(StackName=stack, TemplateURL=cf_tmpl_url)
+
+    #Clean up local resources
+    os.remove(lambda_file)
+    os.remove(lambda_zip)
+
+def Delete():
+    print('List of Stacks:')
+
+    #Get list of CloudFormation stacks
+    ss = cf.list_stacks()['StackSummaries']
+    for x in ss:
+        print(x['StackName'])
+
+    print('Which stack to delete? (case sensative)')
+    stack_purge = input()
+
+    #Remove CloudFormation stack and associated S3 Buckets
+    cf.delete_stack(StackName=stack_purge)
+    s3.delete_object(Bucket=stack_purge + '-cf', Key=stack_purge)
+    s3.delete_bucket(Bucket=stack_purge + '-cf')
+    s3.delete_object(Bucket=stack_purge + '-lambda', Key=stack_purge)
+    s3.delete_bucket(Bucket=stack_purge + '-lambda')
