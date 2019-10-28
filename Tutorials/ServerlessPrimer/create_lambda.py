@@ -22,9 +22,9 @@ lambda_base = settings['lambda_base']
 lambda_file = settings['lambda_file']
 
 #Create CloudFormation template and Lambda code buckets
-cf_s3_bucket = stack + '-cf'
+cf_s3_bucket = stack + '-cf'.lower()
 s3.create_bucket(Bucket=cf_s3_bucket)
-lambda_s3_bucket = stack + '-lambda'
+lambda_s3_bucket = stack + '-lambda'.lower()
 s3.create_bucket(Bucket=lambda_s3_bucket)
 
 stack_file = stack + '.yaml'
