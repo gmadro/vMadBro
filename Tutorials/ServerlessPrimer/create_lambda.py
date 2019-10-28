@@ -8,21 +8,22 @@ import yaml
 cf = boto3.client('cloudformation')
 s3 = boto3.client('s3')
 
-print('(C)reate or (D)elete LambdaStack?:')
-cORd = input().lower()
+def main():
+    print('(C)reate or (D)elete LambdaStack?:')
+    cORd = input().lower()
 
-if cORd == 'c':
-    Create_Lamdbda()
-elif cORd == 'create':
-    Create_Lamdbda()
-elif cORd == 'd':
-    Delete_Lambda()
-elif cORd == 'delete':
-    Delete_Lambda()
-else:
-    print('Bad option. Try again!')
+    if cORd == 'c':
+        Create_Lambda()
+    elif cORd == 'create':
+        Create_Lambda()
+    elif cORd == 'd':
+        Delete_Lambda()
+    elif cORd == 'delete':
+        Delete_Lambda()
+    else:
+        print('Bad option. Try again!')
 
-def Create_Lamdbda():
+def Create_Lambda():
     print('Enter name of stack:')
     stack = input()
 
@@ -78,3 +79,5 @@ def Delete_Lambda():
     s3.delete_bucket(Bucket=stack_purge + '-cf')
     s3.delete_object(Bucket=stack_purge + '-lambda', Key=stack_purge)
     s3.delete_bucket(Bucket=stack_purge + '-lambda')
+
+main()
