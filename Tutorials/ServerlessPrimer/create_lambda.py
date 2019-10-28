@@ -41,3 +41,7 @@ s3.upload_file(cf_base, cf_s3_bucket, stack_file)
 s3.upload_file(lambda_zip, lambda_s3_bucket, lambda_zip)
 
 cf.create_stack(StackName=stack, TemplateURL=cf_tmpl_url)
+
+#Clean up local resources
+os.remove(lambda_file)
+os.remove(lambda_zip)
