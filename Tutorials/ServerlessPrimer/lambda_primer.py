@@ -63,7 +63,7 @@ def Create_Lambda():
     print('Uploading ' + lambda_zip + ' to ' + lambda_s3_bucket + '...')
     s3.upload_file(lambda_zip, lambda_s3_bucket, lambda_zip)
     print('Creating stack ' + stack + '...')
-    cf.create_stack(StackName=stack, TemplateURL=cf_tmpl_url)
+    cf.create_stack(StackName=stack, TemplateURL=cf_tmpl_url, Capabilities=['CAPABILITY_NAMED_IAM'])
 
     #Clean up local resources
     print('Removing ' + lambda_file + '...')
