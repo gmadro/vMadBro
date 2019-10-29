@@ -1,0 +1,29 @@
+{
+    "Version": "2012-10-17",
+    "Statement": [
+        {
+            "Sid": "VisualEditor0",
+            "Effect": "Allow",
+            "Action": [
+                "lambda:CreateFunction",
+                "iam:GetRole",
+                "cloudformation:ListStacks",
+                "lambda:GetFunction",
+                "s3:CreateBucket",
+                "iam:CreateRole",
+                "iam:DeleteRole",
+                "iam:PutRolePolicy",
+                "s3:PutObject",
+                "s3:GetObject",
+                "iam:PassRole",
+                "cloudformation:CreateStack",
+                "iam:DeleteRolePolicy",
+                "cloudformation:DeleteStack",
+                "lambda:DeleteFunction",
+                "s3:DeleteObject",
+                "s3:DeleteBucket"
+            ],
+            "Resource": "*"
+        }
+    ]
+}
