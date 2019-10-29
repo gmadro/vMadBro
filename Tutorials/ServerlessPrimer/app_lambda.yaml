@@ -7,8 +7,7 @@ Resources:
         S3Bucket: !Sub '${AWS::StackName}-lambda'
         S3Key: !Sub '${AWS::StackName}.zip'
       FunctionName: !Ref 'AWS::StackName'
-      Role:
-        'Fn::GetAtt':
+      Role: !GetAtt
           - LambdaRole
           - Arn
       Handler: index.main
