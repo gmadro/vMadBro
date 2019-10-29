@@ -6,8 +6,11 @@ Resources:
       Code:
         S3Bucket: !Sub '${AWS::StackName}-lambda'
         S3Key: !Sub '${AWS::StackName}.zip'
-      FunctionName: !Ref AWS::StackName
-      Role: !Ref 'LambdaRole'
+      FunctionName: !Ref 'AWS::StackName'
+      Role:
+        'Fn::GetAtt':
+          - LambdaRole
+          - Arn
       Handler: index.main
       Runtime: python3.7
   LambdaRole:
@@ -15,27 +18,22 @@ Resources:
     Properties:
       RoleName: !Sub '${AWS::StackName}-lambda-role'
       AssumeRolePolicyDocument:
-        Version: '2012-10-17'
+        Version: 2012-10-17
         Statement:
-          -
-            Effect: "Allow"
+          - Effect: Allow
             Principal:
               Service:
-                - 'lambda.amazonaws.com'
-            Action: 
-              - "sts:AssumeRole"
+                - lambda.amazonaws.com
+            Action:
+              - 'sts:AssumeRole'
       Policies:
-        -
-          PolicyName: !Sub '${AWS::StackName}-lambda-policy'
+        - PolicyName: !Sub '${AWS::StackName}-lambda-policy'
           PolicyDocument:
-            Version: '2012-10-17'
+            Version: 2012-10-17
             Statement:
-              -
-                Effect: "Allow"
+              - Effect: Allow
                 Action:
                   - 'logs:CreateLogGroup'
                   - 'logs:CreateLogStream'
                   - 'logs:PutLogEvents'
                 Resource: '*'
-                  
-          
