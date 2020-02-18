@@ -39,6 +39,12 @@ Resources:
       Role: !GetAtt LambdaRole.Arn
       Handler: index.main
       Runtime: python3.7
+  S3Bucket:
+    Type: 'AWS::S3::Bucket'
+    Properties:
+      BucketName: !Sub '${AWS::StackName}-bucket'
+      WebsiteConfiguration:
+        IndexDocument: index.html
   ApiGateway:
     Type: 'AWS::ApiGateway::RestApi'
     Properties:
@@ -133,3 +139,6 @@ Resources:
       Action: 'lambda:InvokeFunction'
       FunctionName: !GetAtt LambdaFunction.Arn
       Principal: apigateway.amazonaws.com
+Outputs:
+  FrontEnd:
+    Value: !GetAtt S3Bucket.WebsiteURL
