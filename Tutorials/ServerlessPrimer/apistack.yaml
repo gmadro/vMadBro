@@ -1,0 +1,127 @@
+AWSTemplateFormatVersion: 2010-09-09
+Resources:
+  serverlessDB:
+    Type: 'AWS::DynamoDB::Table'
+    Properties:
+      AttributeDefinitions:
+        - AttributeName: TestId
+          AttributeType: S
+      KeySchema:
+        - AttributeName: TestId
+          KeyType: HASH
+      TableName: !Sub '${AWS::StackName}-db'
+      BillingMode: PAY_PER_REQUEST
+  LambdaFunction:
+    Type: 'AWS::Lambda::Function'
+    Properties:
+      Environment:
+        Variables:
+          tableName: !Sub '${AWS::StackName}-db'
+      Code:
+        ZipFile: |
+          import sys, boto3, os
+
+          client = boto3.client('dynamodb')
+
+          def main(event, context):
+              conCat = event['k1'] + event['k2']
+              response = client.put_item(
+                TableName=os.environ['tableName'],
+                Item={
+                  'TestId': {'S': '1'},
+                  'ConcatString': {'S': conCat}
+                }
+              )
+
+          if __name__ == '__main__':
+              main(event, context)
+      FunctionName: !Sub '${AWS::StackName}-function'
+      Role: !GetAtt LambdaRole.Arn
+      Handler: index.main
+      Runtime: python3.7
+  ApiGateway:
+    Type: 'AWS::ApiGateway::RestApi'
+    Properties:
+      Name: !Sub '${AWS::StackName}-api'
+  ApiGatewayRestPOSTMethod:
+    Type: 'AWS::ApiGateway::Method'
+    Properties:
+      ResourceId: !GetAtt ApiGateway.RootResourceId
+      RestApiId: !Ref ApiGateway
+      AuthorizationType: NONE
+      HttpMethod: POST
+      MethodResponses:
+        - StatusCode: '200'
+      Integration:
+        IntegrationHttpMethod: POST
+        Type: AWS
+        Uri: !Sub >-
+          arn:aws:apigateway:${AWS::Region}:lambda:path/2015-03-31/functions/${LambdaFunction.Arn}/invocations
+        IntegrationResponses:
+          - StatusCode: '200'
+  ApiGatewayDeploy:
+    DependsOn: ApiGatewayRestPOSTMethod
+    Type: 'AWS::ApiGateway::Deployment'
+    Properties:
+      RestApiId: !Ref ApiGateway
+      StageName: !Ref 'AWS::StackName'
+  LambdaRole:
+    Type: 'AWS::IAM::Role'
+    Properties:
+      RoleName: !Sub '${AWS::StackName}-lambda-role'
+      AssumeRolePolicyDocument:
+        Version: 2012-10-17
+        Statement:
+          - Effect: Allow
+            Principal:
+              Service:
+                - lambda.amazonaws.com
+            Action:
+              - 'sts:AssumeRole'
+      Policies:
+        - PolicyName: !Sub '${AWS::StackName}-lambda-log-policy'
+          PolicyDocument:
+            Version: 2012-10-17
+            Statement:
+              - Effect: Allow
+                Action:
+                  - 'logs:CreateLogGroup'
+                  - 'logs:CreateLogStream'
+                  - 'logs:PutLogEvents'
+                Resource: '*'
+        - PolicyName: !Sub '${AWS::StackName}-lambda-dynamodb-policy'
+          PolicyDocument:
+            Version: 2012-10-17
+            Statement:
+              - Effect: Allow
+                Action:
+                  - 'dynamodb:PutItem'
+                Resource: !GetAtt serverlessDB.Arn
+  ApiRole:
+    Type: 'AWS::IAM::Role'
+    Properties:
+      RoleName: !Sub '${AWS::StackName}-api-role'
+      AssumeRolePolicyDocument:
+        Version: 2012-10-17
+        Statement:
+          - Effect: Allow
+            Principal:
+              Service:
+                - apigateway.amazonaws.com
+            Action:
+              - 'sts:AssumeRole'
+      Policies:
+        - PolicyName: !Sub '${AWS::StackName}-api-lambda-policy'
+          PolicyDocument:
+            Version: 2012-10-17
+            Statement:
+              - Effect: Allow
+                Action:
+                  - 'lambda:InvokeFunction'
+                Resource: !GetAtt LambdaFunction.Arn
+  LambdaPermission:
+    Type: 'AWS::Lambda::Permission'
+    Properties:
+      Action: 'lambda:InvokeFunction'
+      FunctionName: !GetAtt LambdaFunction.Arn
+      Principal: apigateway.amazonaws.com
