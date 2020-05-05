@@ -289,3 +289,12 @@ __pycache__/
 
 # Copmressed Files
 *.zip
+
+# Terraform
+*.exe
+*.tfstate
+*.Backup
+.govmomi/
+.terraform/
+*.tfvars
+*.tfplan
