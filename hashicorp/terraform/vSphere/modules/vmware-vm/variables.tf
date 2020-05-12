@@ -1,0 +1,9 @@
+variable "vm_name" {}
+variable "vm_cpus" {}
+variable "vm_mem" {}
+variable "vm_rp_id" {}
+variable "vm_ds_id" {}
+variable "vm_guest_id" {}
+variable "vm_net_id" {}
+variable "vm_disk_label" {}
+variable "vm_disk_size" {}

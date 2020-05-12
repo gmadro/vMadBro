@@ -25,21 +25,15 @@ data "vsphere_datastore" "datastore" {
   datacenter_id = data.vsphere_datacenter.dc.id
 }
 
-resource "vsphere_virtual_machine" "vm" {
-  name                       = "terraform"
-  num_cpus                   = 2
-  memory                     = 1024
-  resource_pool_id           = data.vsphere_resource_pool.pool.id
-  datastore_id               = data.vsphere_datastore.datastore.id
-  guest_id                   = "centos64Guest"
-  wait_for_guest_net_timeout = 0
-
-  network_interface {
-    network_id = data.vsphere_network.network.id
-  }
-
-  disk {
-    label = "disk0"
-    size  = 20
-  }
+module "vm1" {
+    source = "./modules/vmware-vm"
+    vm_name = "moduleVM"
+    vm_cpus = 1
+    vm_mem = 1024
+    vm_rp_id = data.vsphere_resource_pool.pool.id
+    vm_ds_id = data.vsphere_datastore.datastore.id
+    vm_guest_id = "centos64Guest"
+    vm_net_id = data.vsphere_network.network.id
+    vm_disk_label = "disk0"
+    vm_disk_size = 20
 }
