@@ -1,5 +1,5 @@
 data "vsphere_virtual_machine" "template" {
-  name = "Cent5Base"
+  name          = "Cent5Base"
   datacenter_id = data.vsphere_datacenter.dc.id
 }
 
@@ -22,8 +22,8 @@ resource "vsphere_virtual_machine" "vm_clone" {
   }
 
   disk {
-    label = "disk1"
-    size = 20
+    label       = "disk1"
+    size        = 20
     unit_number = 1
   }
 
