@@ -1,4 +1,4 @@
-resource "vsphere_virtual_machine" "vm" {
+resource "vsphere_virtual_machine" "mod_vm" {
   name                       = var.vm_name
   num_cpus                   = var.vm_cpus
   memory                     = var.vm_mem

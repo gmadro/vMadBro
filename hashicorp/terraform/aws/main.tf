@@ -1,13 +1,30 @@
 provider "aws" {
-  region = "us-east-1"
+  region                  = "us-east-1"
   shared_credentials_file = "$HOME/.aws/credentials"
 }
 
-resource "aws_lambda_function" "terraformFunction" {
-  s3_bucket = var.s3_bucket
-  s3_key = var.s3_key
-  function_name = var.function_name
-  role = var.role
-  handler = var.handler
-  runtime = var.runtime
+data "aws_ami" "amz" {
+  most_recent = true
+
+  filter {
+    name   = "name"
+    values = ["amzn2-ami-hvm-2*"]
+  }
+
+  filter {
+    name   = "virtualization-type"
+    values = ["hvm"]
+  }
+
+  owners = ["amazon"]
 }
+
+resource "aws_instance" "test1" {
+  ami           = data.aws_ami.amz.id
+  instance_type = "t2.micro"
+
+  tags = {
+    Name = "terraTest"
+  }
+}
+

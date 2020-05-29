@@ -28,7 +28,7 @@ data "vsphere_datastore" "datastore" {
 module "vm1" {
   source = "./modules/vmware-vm"
 
-  vm_name       = "moduleVM"
+  vm_name       = "moduleVM - ${terraform.workspace}"
   vm_cpus       = 1
   vm_mem        = 1024
   vm_rp_id      = data.vsphere_resource_pool.pool.id
