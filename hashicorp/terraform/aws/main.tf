@@ -3,28 +3,20 @@ provider "aws" {
   shared_credentials_file = "$HOME/.aws/credentials"
 }
 
-data "aws_ami" "amz" {
-  most_recent = true
+module "serverlessRoles" {
+  source = "./modules/roles"
 
-  filter {
-    name   = "name"
-    values = ["amzn2-ami-hvm-2*"]
-  }
-
-  filter {
-    name   = "virtualization-type"
-    values = ["hvm"]
-  }
-
-  owners = ["amazon"]
+  app_name = var.app_name
 }
 
-resource "aws_instance" "test1" {
-  ami           = data.aws_ami.amz.id
+module "serverlessTerraform" {
+  source = "./modules/serverless-terraform"
+
+  app_name      = var.app_name
   instance_type = "t2.micro"
 
-  tags = {
-    Name = "terraTest"
-  }
+  lambda_s3_key = "index.zip"
+  lambda_role = module.serverlessRoles.role_arn
+  lambda_handler = "index.main"
+  lambda_runtime = "python3.7"
 }
-
