@@ -1,0 +1,14 @@
+AWSTemplateFormatVersion: 2010-09-09
+Resources:
+  DynamoDB:
+    Type: 'AWS::DynamoDB::Table'
+    Properties:
+      AttributeDefinitions:
+        - AttributeName: TestId
+          AttributeType: S
+      KeySchema:
+        - AttributeName: TestId
+          KeyType: HASH
+      TableName: !Sub '${AWS::StackName}-db'
+      BillingMode: PAY_PER_REQUEST
+  
