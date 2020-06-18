@@ -1,6 +1,6 @@
 AWSTemplateFormatVersion: 2010-09-09
 Resources:
-  DynamoDB:
+  TerraformLockDB:
     Type: 'AWS::DynamoDB::Table'
     Properties:
       AttributeDefinitions:
@@ -9,6 +9,9 @@ Resources:
       KeySchema:
         - AttributeName: TestId
           KeyType: HASH
-      TableName: !Sub '${AWS::StackName}-db'
+      TableName: !Sub '${AWS::StackName}-lockdb'
       BillingMode: PAY_PER_REQUEST
-  
+  TerraformStateStore:
+    Type: 'AWS::S3::Bucket'
+    Properties:
+      Bucketname: '${AWS::StackName}-statebucket'
