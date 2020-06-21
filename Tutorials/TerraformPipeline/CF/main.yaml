@@ -15,3 +15,40 @@ Resources:
     Type: 'AWS::S3::Bucket'
     Properties:
       Bucketname: '${AWS::StackName}-statebucket'
+  PipelineArtifactStore:
+    Type: 'AWS::S3::Bucket'
+    Properties:
+      Bucketname: '${AWS::StackName}-artifactbucket'
+  TerraformPipeline:
+    Type: 'AWS::CodePipeline::Pipeline'
+    Properties:
+      Name: '${AWS::StackName}-pipeline'
+      ArtifactStore:
+        Ref: PipelineArtifactStore
+      RoleArn:
+      Stages:
+        - Name: Source
+          Actions:
+            - Name: GitHubSource
+              ActionTypeId:
+                Category: Source
+                Owner: ThirdParty
+                Provider: GitHub
+                Version: 1
+              OutputArtifacts:
+                - Name: GitHubArtifact
+              Configuration:
+                Owner: gmadro
+                Repo: terraRepo
+                Branch: master
+                OAuthToken: "{{resolve:ssm-secure:GitHubAuth:1}}"
+        - Name: Build
+          Actions:
+            - Name: TerraformRun
+              ActionTypeId:
+                Category: Build
+                Owner: AWS
+                Provider: CodeBuild
+                Version: 1
+              Configuration:
+                ProjectName: ${AWS::StackName}-Run
