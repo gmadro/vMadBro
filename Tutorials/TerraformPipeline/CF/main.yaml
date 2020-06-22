@@ -90,6 +90,7 @@ Resources:
             Principal:
               Service:
                 - codepipeline.amazonaws.com
+                - codebuild.amazonaws.com
             Action:
               - 'sts:AssumeRole'
       Policies:
