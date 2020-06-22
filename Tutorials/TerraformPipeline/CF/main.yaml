@@ -1,4 +1,9 @@
 AWSTemplateFormatVersion: 2010-09-09
+Parameters:
+  GitHubAccount:
+    Type: String
+    Description: Enter GitHub account name
+
 Resources:
   TerraformLockDB:
     Type: 'AWS::DynamoDB::Table'
@@ -55,7 +60,8 @@ Resources:
               OutputArtifacts:
                 - Name: GitHubArtifact
               Configuration:
-                Owner: gmadro
+                Owner:
+                  Ref: GitHubAccount
                 Repo: terraRepo
                 Branch: master
                 OAuthToken: '{{resolve:secretsmanager:GitHubAuth:SecretString:GitHubAuth}}'
