@@ -65,3 +65,82 @@ Resources:
                 ProjectName: !Sub ${AWS::StackName}-Run
               InputArtifacts:
                 - Name: GitHubArtifact
+  PipelineRole:
+    Type: 'AWS::IAM::Role'
+    Properties:
+      RoleName: !Sub ${AWS::StackName}-pipeline-role'
+      AssumeRolePolicyDocument:
+        Version: 2012-10-17
+        Statement:
+          - Effect: Allow
+            Principal:
+              Service:
+                - codepipeline.amazonaws.com
+            Action:
+              - 'sts:AssumeRole'
+      Policies:
+        - PolicyName: !Sub ${AWS::StackName}-pipeline-logs'
+          PolicyDocument:
+            Version: 2012-10-17
+            Statement:
+              - Effect: Allow
+                Action:
+                  - 'logs:CreateLogGroup'
+                  - 'logs:CreateLogStream'
+                  - 'logs:PutLogEvents'
+                Resource:
+                  - !Sub 'arn:aws:logs:${AWS::Region}:${AWS::AccountId}:log-group:/aws/codebuild/${AWS::StackName}'
+                  - !Sub 'arn:aws:logs:${AWS::Region}:${AWS::AccountId}:log-group:/aws/codebuild/${AWS::StackName}:*'
+        - PolicyName: !Sub '${AWS::StackName}-terraform-state'
+          PolicyDocument:
+            Version: 2012-10-17
+            Statement:
+              - Effect: Allow
+                Action:
+                  - 's3:ListBucket'
+                Resource:
+                  - Ref: TerraformStateStore
+              - Effect: Allow
+                Action:
+                  - 's3:GetObject'
+                  - 's3:PutObject'
+                Resource:
+                  - Ref: TerraformStateStore
+              - Effect: Allow
+                Action:
+                  - 'dynamodb:GetItem'
+                  - 'dynamodb:PutItem'
+                  - 'dynamodb:DeleteItem'
+                Resource:
+                  - !Sub 'arn:aws:dynamodb:${AWS::Region}:${AWS::AccountId}:table/${AWS::StackName}-lockdb'
+        - PolicyName: !Sub '${AWS::StackName}-build'
+          PolicyDocument:
+            Version: 2012-10-17
+            Statement:
+              - Effect: Allow
+                Action:
+                  - 's3:GetBucketAcl'
+                  - 's3:PutObject'
+                  - 's3:GetObject'
+                  - 's3:GetBucketLocation'
+                  - 's3:GetObjectVersion'
+                Resource:
+                  - Ref: PipelineArtifactStore
+              - Effect: Allow
+                Action:
+                  - 'codebuild:BatchGetBuilds'
+                  - 'codebuild:CreateReportGroup'
+                  - 'codebuild:CreateReport'
+                  - 'codebuild:UpdateReport'
+                  - 'codebuild:StartBuild'
+                  - 'codebuild:BatchPutTestCases'
+                Resource:
+                  - !Sub 'arn:aws:codebuild::${AWS::Region}:${AWS::AccountId}:report-group/${AWS::StackName}'
+                  - !Sub 'arn:aws:codebuild::${AWS::Region}:${AWS::AccountId}:project/${AWS::StackName}'
+        - PolicyName: !Sub '${AWS::StackName}-terraform-access'
+          PolicyDocument:
+            Version: 2012-10-17
+            Statement:
+              - Effect: Allow
+                Action: 'ec2:*'
+                Resource: '*'
