@@ -28,8 +28,8 @@ Resources:
     Type: 'AWS::CodeBuild::Project'
     Properties:
       Name: !Sub '${AWS::StackName}-Run'
-      ServiceRole: >-
-        arn:aws:iam::501511055678:role/service-role/codebuild-Terraform-service-role
+      ServiceRole:
+        Ref: PipelineRole
       Artifacts:
         Type: CODEPIPELINE
       Environment:
@@ -46,8 +46,8 @@ Resources:
         Type: S3
         Location:
           Ref: PipelineArtifactStore
-      RoleArn: >-
-        arn:aws:iam::501511055678:role/service-role/codebuild-Terraform-service-role
+      RoleArn:
+        Ref: PipelineRole
       Stages:
         - Name: Source
           Actions:
