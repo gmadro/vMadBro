@@ -29,7 +29,7 @@ Resources:
     Properties:
       Name: !Sub '${AWS::StackName}-Run'
       ServiceRole:
-        !GetAtt: PipelineRole.Arn
+        Fn::GetAtt: [PipelineRole, Arn]
       Artifacts:
         Type: CODEPIPELINE
       Environment:
@@ -47,7 +47,7 @@ Resources:
         Location:
           Ref: PipelineArtifactStore
       RoleArn:
-        !GetAtt: PipelineRole.Arn
+        Fn::GetAtt: [PipelineRole, Arn]
       Stages:
         - Name: Source
           Actions:
@@ -104,10 +104,7 @@ Resources:
                   - 'logs:CreateLogStream'
                   - 'logs:PutLogEvents'
                 Resource:
-                  - !Sub >-
-                    arn:aws:logs:${AWS::Region}:${AWS::AccountId}:log-group:/aws/codebuild/${AWS::StackName}
-                  - !Sub >-
-                    arn:aws:logs:${AWS::Region}:${AWS::AccountId}:log-group:/aws/codebuild/${AWS::StackName}:*
+                  - !Sub 'arn:aws:logs:${AWS::Region}:${AWS::AccountId}:log-group:/aws/codebuild/${AWS::StackName}*'
         - PolicyName: !Sub '${AWS::StackName}-terraform-state'
           PolicyDocument:
             Version: 2012-10-17
@@ -143,7 +140,7 @@ Resources:
                   - 's3:GetBucketLocation'
                   - 's3:GetObjectVersion'
                 Resource:
-                  - !Sub 'arn:aws:s3:::${AWS::StackName}-artifactstore'
+                  - !Sub 'arn:aws:s3:::${AWS::StackName}-artifactstore*'
               - Effect: Allow
                 Action:
                   - 'codebuild:BatchGetBuilds'
@@ -153,10 +150,8 @@ Resources:
                   - 'codebuild:StartBuild'
                   - 'codebuild:BatchPutTestCases'
                 Resource:
-                  - !Sub >-
-                    arn:aws:codebuild::${AWS::Region}:${AWS::AccountId}:report-group/${AWS::StackName}
-                  - !Sub >-
-                    arn:aws:codebuild::${AWS::Region}:${AWS::AccountId}:project/${AWS::StackName}
+                  - !Sub 'arn:aws:codebuild:${AWS::Region}:${AWS::AccountId}:report-group/${AWS::StackName}*'
+                  - !Sub 'arn:aws:codebuild:${AWS::Region}:${AWS::AccountId}:project/${AWS::StackName}*'
         - PolicyName: !Sub '${AWS::StackName}-terraform-access'
           PolicyDocument:
             Version: 2012-10-17
