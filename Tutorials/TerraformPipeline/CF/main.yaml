@@ -29,7 +29,7 @@ Resources:
     Properties:
       Name: !Sub '${AWS::StackName}-Run'
       ServiceRole:
-        Ref: PipelineRole
+        !GetAtt: PipelineRole.Arn
       Artifacts:
         Type: CODEPIPELINE
       Environment:
@@ -47,7 +47,7 @@ Resources:
         Location:
           Ref: PipelineArtifactStore
       RoleArn:
-        Ref: PipelineRole
+        !GetAtt: PipelineRole.Arn
       Stages:
         - Name: Source
           Actions:
