@@ -1,0 +1,11 @@
+variable "vm_clone_name" {}
+variable "vm_clone_cpus" {}
+variable "vm_clone_mem" {}
+variable "vm_clone_rp_id" {}
+variable "vm_clone_ds_id" {}
+variable "vm_clone_guest_id" {}
+variable "vm_clone_net_id" {}
+variable "vm_clone_disk_label" {}
+variable "vm_clone_disk_size" {}
+variable "vm_clone_template_name" {}
+variable "vm_clone_dc_id" {}
