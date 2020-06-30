@@ -81,7 +81,7 @@ Resources:
               Configuration:
                 ProjectName: !Sub '${AWS::StackName}-Run'
                 EnvironmentVariables: !Sub >-
-                  [{"name":"STATE_BUCKET","value":"${AWS::StackName}-statestore"},{"name":"LOCKDB_TABLE","value":"${AWS::StackName}-lockdb"}]
+                  [{"name":"STATE_BUCKET","value":"${AWS::StackName}-statestore"},{"name":"LOCKDB_TABLE","value":"${AWS::StackName}-lockdb"},{"name":"REV","value":"${TemplateRevision}"}]
               InputArtifacts:
                 - Name: GitHubArtifact
   PipelineRole:
