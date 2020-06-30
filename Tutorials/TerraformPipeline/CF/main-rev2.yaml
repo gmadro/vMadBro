@@ -3,6 +3,10 @@ Parameters:
   GitHubAccount:
     Type: String
     Description: Enter GitHub account name
+  TemplateRevision:
+    Type: String
+    Default: "rev1"
+    Description: Template revision to use
 
 Resources:
   TerraformLockDB:
@@ -38,6 +42,7 @@ Resources:
         Image: 'aws/codebuild/amazonlinux2-x86_64-standard:3.0'
       Source:
         Type: CODEPIPELINE
+        BuildSpec: !Sub '${TemplateRevision}/buildspec.yaml'
   TerraformPipeline:
     Type: 'AWS::CodePipeline::Pipeline'
     Properties:
@@ -76,7 +81,7 @@ Resources:
               Configuration:
                 ProjectName: !Sub '${AWS::StackName}-Run'
                 EnvironmentVariables: !Sub >-
-                  [{"name":"STATE_BUCKET","value":"${AWS::StackName}-statestore"},{"name":"LOCKDB_TABLE","value":"${AWS::StackName}-lockdb"},{"name":"INSTANCE_NAME","value":"${AWS::StackName}-instance"}]
+                  [{"name":"STATE_BUCKET","value":"${AWS::StackName}-statestore"},{"name":"LOCKDB_TABLE","value":"${AWS::StackName}-lockdb"},{"name":"REV","value":"${TemplateRevision}"},{"name":"INSTANCE_NAME","value":"${AWS::StackName}-instance"}]
               InputArtifacts:
                 - Name: GitHubArtifact
   PipelineRole:
