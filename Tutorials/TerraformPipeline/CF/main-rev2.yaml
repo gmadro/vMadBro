@@ -1,0 +1,161 @@
+AWSTemplateFormatVersion: 2010-09-09
+Parameters:
+  GitHubAccount:
+    Type: String
+    Description: Enter GitHub account name
+
+Resources:
+  TerraformLockDB:
+    Type: 'AWS::DynamoDB::Table'
+    Properties:
+      AttributeDefinitions:
+        - AttributeName: LockID
+          AttributeType: S
+      KeySchema:
+        - AttributeName: LockID
+          KeyType: HASH
+      TableName: !Sub '${AWS::StackName}-lockdb'
+      BillingMode: PAY_PER_REQUEST
+  TerraformStateStore:
+    Type: 'AWS::S3::Bucket'
+    Properties:
+      BucketName: !Sub '${AWS::StackName}-statestore'
+  PipelineArtifactStore:
+    Type: 'AWS::S3::Bucket'
+    Properties:
+      BucketName: !Sub '${AWS::StackName}-artifactstore'
+  TerraformBuildProject:
+    Type: 'AWS::CodeBuild::Project'
+    Properties:
+      Name: !Sub '${AWS::StackName}-Run'
+      ServiceRole:
+        Fn::GetAtt: [PipelineRole, Arn]
+      Artifacts:
+        Type: CODEPIPELINE
+      Environment:
+        Type: LINUX_CONTAINER
+        ComputeType: BUILD_GENERAL1_SMALL
+        Image: 'aws/codebuild/amazonlinux2-x86_64-standard:3.0'
+      Source:
+        Type: CODEPIPELINE
+  TerraformPipeline:
+    Type: 'AWS::CodePipeline::Pipeline'
+    Properties:
+      Name: !Sub '${AWS::StackName}-pipeline'
+      ArtifactStore:
+        Type: S3
+        Location:
+          Ref: PipelineArtifactStore
+      RoleArn:
+        Fn::GetAtt: [PipelineRole, Arn]
+      Stages:
+        - Name: Source
+          Actions:
+            - Name: GitHubSource
+              ActionTypeId:
+                Category: Source
+                Owner: ThirdParty
+                Provider: GitHub
+                Version: 1
+              OutputArtifacts:
+                - Name: GitHubArtifact
+              Configuration:
+                Owner:
+                  Ref: GitHubAccount
+                Repo: terraRepo
+                Branch: master
+                OAuthToken: '{{resolve:secretsmanager:GitHubAuth:SecretString:GitHubAuth}}'
+        - Name: Build
+          Actions:
+            - Name: TerraformRun
+              ActionTypeId:
+                Category: Build
+                Owner: AWS
+                Provider: CodeBuild
+                Version: 1
+              Configuration:
+                ProjectName: !Sub '${AWS::StackName}-Run'
+                EnvironmentVariables: !Sub >-
+                  [{"name":"STATE_BUCKET","value":"${AWS::StackName}-statestore"},{"name":"LOCKDB_TABLE","value":"${AWS::StackName}-lockdb"},{"name":"INSTANCE_NAME","value":"${AWS::StackName}-instance"}]
+              InputArtifacts:
+                - Name: GitHubArtifact
+  PipelineRole:
+    Type: 'AWS::IAM::Role'
+    Properties:
+      RoleName: !Sub '${AWS::StackName}-pipeline-role'
+      AssumeRolePolicyDocument:
+        Version: 2012-10-17
+        Statement:
+          - Effect: Allow
+            Principal:
+              Service:
+                - codepipeline.amazonaws.com
+                - codebuild.amazonaws.com
+            Action:
+              - 'sts:AssumeRole'
+      Policies:
+        - PolicyName: !Sub '${AWS::StackName}-pipeline-logs'
+          PolicyDocument:
+            Version: 2012-10-17
+            Statement:
+              - Effect: Allow
+                Action:
+                  - 'logs:CreateLogGroup'
+                  - 'logs:CreateLogStream'
+                  - 'logs:PutLogEvents'
+                Resource:
+                  - !Sub 'arn:aws:logs:${AWS::Region}:${AWS::AccountId}:log-group:/aws/codebuild/${AWS::StackName}*'
+        - PolicyName: !Sub '${AWS::StackName}-terraform-state'
+          PolicyDocument:
+            Version: 2012-10-17
+            Statement:
+              - Effect: Allow
+                Action:
+                  - 's3:ListBucket'
+                Resource:
+                  - !Sub 'arn:aws:s3:::${AWS::StackName}-statestore'
+              - Effect: Allow
+                Action:
+                  - 's3:GetObject'
+                  - 's3:PutObject'
+                Resource:
+                  - !Sub 'arn:aws:s3:::${AWS::StackName}-statestore/terraform.tfstate'
+              - Effect: Allow
+                Action:
+                  - 'dynamodb:GetItem'
+                  - 'dynamodb:PutItem'
+                  - 'dynamodb:DeleteItem'
+                Resource:
+                  - !Sub >-
+                    arn:aws:dynamodb:${AWS::Region}:${AWS::AccountId}:table/${AWS::StackName}-lockdb
+        - PolicyName: !Sub '${AWS::StackName}-build'
+          PolicyDocument:
+            Version: 2012-10-17
+            Statement:
+              - Effect: Allow
+                Action:
+                  - 's3:GetBucketAcl'
+                  - 's3:PutObject'
+                  - 's3:GetObject'
+                  - 's3:GetBucketLocation'
+                  - 's3:GetObjectVersion'
+                Resource:
+                  - !Sub 'arn:aws:s3:::${AWS::StackName}-artifactstore*'
+              - Effect: Allow
+                Action:
+                  - 'codebuild:BatchGetBuilds'
+                  - 'codebuild:CreateReportGroup'
+                  - 'codebuild:CreateReport'
+                  - 'codebuild:UpdateReport'
+                  - 'codebuild:StartBuild'
+                  - 'codebuild:BatchPutTestCases'
+                Resource:
+                  - !Sub 'arn:aws:codebuild:${AWS::Region}:${AWS::AccountId}:report-group/${AWS::StackName}*'
+                  - !Sub 'arn:aws:codebuild:${AWS::Region}:${AWS::AccountId}:project/${AWS::StackName}*'
+        - PolicyName: !Sub '${AWS::StackName}-terraform-access'
+          PolicyDocument:
+            Version: 2012-10-17
+            Statement:
+              - Effect: Allow
+                Action: 'ec2:*'
+                Resource: '*'
