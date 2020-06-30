@@ -5,7 +5,7 @@ Parameters:
     Description: Enter GitHub account name
   TemplateRevision:
     Type: String
-    Default: "rev1"
+    Default: "rev2"
     Description: Template revision to use
 
 Resources:
