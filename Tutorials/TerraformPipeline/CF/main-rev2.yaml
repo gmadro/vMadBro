@@ -3,6 +3,9 @@ Parameters:
   GitHubAccount:
     Type: String
     Description: Enter GitHub account name
+  SSHkeyName:
+    Type: String
+    Description: Name of SSH Key to use to access EC2 Instance
   TemplateRevision:
     Type: String
     Default: "rev2"
@@ -81,7 +84,7 @@ Resources:
               Configuration:
                 ProjectName: !Sub '${AWS::StackName}-Run'
                 EnvironmentVariables: !Sub >-
-                  [{"name":"STATE_BUCKET","value":"${AWS::StackName}-statestore"},{"name":"LOCKDB_TABLE","value":"${AWS::StackName}-lockdb"},{"name":"REV","value":"${TemplateRevision}"},{"name":"IMAGE_NAME","value":"${AWS::StackName}"}]
+                  [{"name":"STATE_BUCKET","value":"${AWS::StackName}-statestore"},{"name":"LOCKDB_TABLE","value":"${AWS::StackName}-lockdb"},{"name":"REV","value":"${TemplateRevision}"},{"name":"IMAGE_NAME","value":"${AWS::StackName}"},{"name":"SSH_KEY","value":"${SSHkeyName}"}]
               InputArtifacts:
                 - Name: GitHubArtifact
   PipelineRole:
