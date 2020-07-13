@@ -1,0 +1,28 @@
+
+version: 0.2
+
+env:
+  variables:
+    STATE_BUCKET: "pipeline"
+    LOCKDB_TABLE: "table"
+    REV: "revision"
+    INSTANCE_NAME: "name"
+
+phases:
+  install:
+    commands:
+      - echo Install Terraform
+      - wget https://releases.hashicorp.com/terraform/0.12.26/terraform_0.12.26_linux_amd64.zip
+      - unzip terraform_0.12.26_linux_amd64.zip
+      - mv terraform /usr/local/bin/
+      - echo install Ansible
+      - yum install ansible -y
+  build:
+    commands:
+      - echo Run terraform init and apply
+      - cd $REV
+      - terraform init -backend-config="bucket=$STATE_BUCKET" -backend-config="dynamodb_table=$LOCKDB_TABLE"
+      - terraform apply -var="instance_name=$INSTANCE_NAME" -auto-approve
+      - echo Run Ansible Playbook
+      - echo $INSTANCE_NAME >> hosts
+      - ansible-playbook main.yaml -i hosts --extra-vars "target=$INSTANCE_NAME"

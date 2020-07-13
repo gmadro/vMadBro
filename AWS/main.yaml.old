@@ -1,0 +1,11 @@
+---
+- hosts: "{{ target }}"
+  tasks:
+  - name: Ensure Docker is installed
+    yum:
+      name: docker
+      state: latest
+  - name: Start Docker service
+    service:
+      name: docker
+      state: started
