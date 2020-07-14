@@ -2,7 +2,11 @@ AWSTemplateFormatVersion: 2010-09-09
 Parameters:
   GitHubAccount:
     Type: String
-    Description: Enter GitHub account name
+    Description: Enter name of GitHub account
+  GitHubRepo:
+    Type: String
+    Description: Enter name of GitHub repository
+    Default: "terraRepo"
   SSHkeyName:
     Type: String
     Description: Name of SSH Key to use to access EC2 Instance
@@ -70,7 +74,8 @@ Resources:
               Configuration:
                 Owner:
                   Ref: GitHubAccount
-                Repo: terraRepo
+                Repo:
+                  Ref: GitHubRepo
                 Branch: master
                 OAuthToken: '{{resolve:secretsmanager:GitHubAuth:SecretString:GitHubAuth}}'
         - Name: Build
