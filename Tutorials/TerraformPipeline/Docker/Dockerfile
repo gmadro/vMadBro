@@ -11,7 +11,7 @@ ADD https://s3.amazonaws.com/session-manager-downloads/plugin/latest/linux_64bit
 #Install unzip the Terraform and Packer executables
 RUN yum install zip -y
 RUN yum install unzip -y
-RUN yum install ansible -y
+RUN amazon-linux-extras install ansible2
 RUN yum install /tmp/session-manager-plugin.rpm -y
 RUN unzip /tmp/terraform_${TERRAFORM_VER}_linux_amd64.zip -d /usr/local/bin/
 RUN unzip /tmp/packer_${PACKER_VER}_linux_amd64.zip -d /usr/local/bin/
