@@ -7,7 +7,6 @@ ENV TERRAFORM_VER=1.0.1
 ADD https://releases.hashicorp.com/terraform/${TERRAFORM_VER}/terraform_${TERRAFORM_VER}_linux_amd64.zip /tmp
 ADD https://releases.hashicorp.com/packer/${PACKER_VER}/packer_${PACKER_VER}_linux_amd64.zip /tmp
 ADD https://s3.amazonaws.com/session-manager-downloads/plugin/latest/linux_64bit/session-manager-plugin.rpm /tmp
-ADD https://raw.githubusercontent.com/hashicorp/packer/master/test/fixtures/provisioner-ansible/connection_plugins/packer.py /usr/share/ansible/plugins/connection/
 
 #Install unzip the Terraform and Packer executables
 RUN yum install zip -y
