@@ -14,5 +14,6 @@ RUN yum install unzip -y
 RUN yum install git -y
 RUN amazon-linux-extras install ansible2
 RUN yum install /tmp/session-manager-plugin.rpm -y
+RUN pip install "pywinrm>=0.2.2"
 RUN unzip /tmp/terraform_${TERRAFORM_VER}_linux_amd64.zip -d /usr/local/bin/
 RUN unzip /tmp/packer_${PACKER_VER}_linux_amd64.zip -d /usr/local/bin/
