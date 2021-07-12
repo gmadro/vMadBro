@@ -12,6 +12,7 @@ ADD https://s3.amazonaws.com/session-manager-downloads/plugin/latest/linux_64bit
 RUN yum install zip -y
 RUN yum install unzip -y
 RUN yum install git -y
+RUN yum install python-pip -y
 RUN amazon-linux-extras install ansible2
 RUN yum install /tmp/session-manager-plugin.rpm -y
 RUN pip install "pywinrm>=0.2.2"
