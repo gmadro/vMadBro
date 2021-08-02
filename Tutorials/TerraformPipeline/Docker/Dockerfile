@@ -1,7 +1,8 @@
 FROM amazonlinux:latest
 
-ENV PACKER_VER=1.7.3
-ENV TERRAFORM_VER=1.0.1
+ENV PACKER_VER=1.7.4
+ENV TERRAFORM_VER=1.0.3
+ENV PYWINRM_VER=0.2.2
 
 #Pull down terraform and Packer from HashiCorp
 ADD https://releases.hashicorp.com/terraform/${TERRAFORM_VER}/terraform_${TERRAFORM_VER}_linux_amd64.zip /tmp
@@ -15,6 +16,6 @@ RUN yum install git -y
 RUN yum install python-pip -y
 RUN amazon-linux-extras install ansible2
 RUN yum install /tmp/session-manager-plugin.rpm -y
-RUN pip install "pywinrm>=0.2.2"
+RUN pip install "pywinrm>=${PYWINRM_VER}"
 RUN unzip /tmp/terraform_${TERRAFORM_VER}_linux_amd64.zip -d /usr/local/bin/
 RUN unzip /tmp/packer_${PACKER_VER}_linux_amd64.zip -d /usr/local/bin/
