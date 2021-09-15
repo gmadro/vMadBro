@@ -14,6 +14,7 @@ RUN yum install zip -y
 RUN yum install unzip -y
 RUN yum install git -y
 RUN yum install python-pip -y
+RUN yum install jq -y
 RUN amazon-linux-extras install ansible2
 RUN yum install /tmp/session-manager-plugin.rpm -y
 RUN pip install "pywinrm>=${PYWINRM_VER}"
