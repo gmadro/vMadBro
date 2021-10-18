@@ -1,7 +1,7 @@
 FROM amazonlinux:latest
 
-ENV PACKER_VER=1.7.4
-ENV TERRAFORM_VER=1.0.3
+ENV PACKER_VER=1.7.6
+ENV TERRAFORM_VER=1.0.9
 ENV PYWINRM_VER=0.2.2
 
 #Pull down terraform and Packer from HashiCorp
