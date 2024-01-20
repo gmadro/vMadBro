@@ -1,8 +1,8 @@
 FROM amazonlinux:latest
 
-ENV PACKER_VER=1.9.4
-ENV TERRAFORM_VER=1.5.5
-ENV PYWINRM_VER=0.2.2
+ENV PACKER_VER=1.10.0
+ENV TERRAFORM_VER=1.7.0
+ENV PYWINRM_VER=0.4.3
 
 #Pull down terraform and Packer from HashiCorp
 ADD https://releases.hashicorp.com/terraform/${TERRAFORM_VER}/terraform_${TERRAFORM_VER}_linux_amd64.zip /tmp
