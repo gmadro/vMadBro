@@ -1,15 +1,15 @@
 FROM amazonlinux:latest
 
-ENV PACKER_VER=1.10.0
-ENV TERRAFORM_VER=1.7.0
+ENV PACKER_VER=1.11.1
+ENV TERRAFORM_VER=1.9.1
 ENV PYWINRM_VER=0.4.3
 
-#Pull down terraform and Packer from HashiCorp
+#Pull down terraform and Packer from HashiCorp and SSM from AWS
 ADD https://releases.hashicorp.com/terraform/${TERRAFORM_VER}/terraform_${TERRAFORM_VER}_linux_amd64.zip /tmp
 ADD https://releases.hashicorp.com/packer/${PACKER_VER}/packer_${PACKER_VER}_linux_amd64.zip /tmp
 ADD https://s3.amazonaws.com/session-manager-downloads/plugin/latest/linux_64bit/session-manager-plugin.rpm /tmp
 
-#Install unzip the Terraform and Packer executables
+#Install unzip the Terraform, Packer, SSM, and WINRM executables
 RUN yum install zip -y
 RUN yum install unzip -y
 RUN yum install git -y
