@@ -18,4 +18,4 @@ RUN yum install jq -y
 RUN yum install /tmp/session-manager-plugin.rpm -y
 RUN pip install "pywinrm>=${PYWINRM_VER}"
 RUN unzip /tmp/terraform_${TERRAFORM_VER}_linux_amd64.zip -d /usr/local/bin/
-RUN unzip /tmp/packer_${PACKER_VER}_linux_amd64.zip -d /usr/local/bin/
+RUN unzip /tmp/packer_${PACKER_VER}_linux_amd64.zip -d /usr/local/bin/ -x LICENSE.txt
